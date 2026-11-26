@@ -1,0 +1,451 @@
+<div class="page monitoring-page">
+  <div class="page-head">
+    <span class="eyebrow">NUTRITION INSIGHT</span>
+    <h1>Hiểu hơn về thói quen ăn uống</h1>
+    <p>
+      Phân tích từ nhật ký thực tế đã ghi. Không sử dụng thực đơn dự kiến thay cho lượng đã ăn,
+      không chẩn đoán bệnh.
+    </p>
+  </div>
+  <div class="monitor-actions">
+    <button mat-flat-button [disabled]="queued || busy" (click)="refresh()">
+      {{ queued ? 'Đang chờ phân tích' : 'Cập nhật phân tích' }}</button
+    ><a mat-stroked-button routerLink="/notifications">Xem cảnh báo</a
+    ><a mat-button routerLink="/logs">Ghi nhật ký</a>
+  </div>
+  @if (error) {
+    <p class="error" role="alert">{{ error }}</p>
+  }
+  @if (notice) {
+    <p class="notice" role="status">{{ notice }}</p>
+  }
+  @if (busy) {
+    <p role="status">Đang tải dữ liệu phân tích…</p>
+  }
+  @if (summary) {
+    <p class="subtle">
+      7 ngày đã kết thúc: {{ summary.start }} – {{ summary.end }} · Cập nhật {{ date(updatedAt) }}
+    </p>
+    <div class="monitor-stats">
+      <article>
+        <span>Ngày có nhật ký</span><strong>{{ summary.loggedDays }}/7</strong>
+      </article>
+      <article>
+        <span>Ngày xác nhận ghi đủ</span><strong>{{ summary.completedDays }}/7</strong>
+      </article>
+      <article>
+        <span>Calories trung bình đã ghi</span
+        ><strong>{{ format(summary.averages.calories.value) }}</strong
+        ><small>kcal / ngày có nhật ký</small>
+      </article>
+      <article>
+        <span>Thay đổi cân nặng</span><strong>{{ format(summary.weight.change) }}</strong
+        ><small>{{
+          summary.weight.change === null
+            ? 'Cần ít nhất 2 lần đo trong kỳ'
+            : 'kg giữa các lần đo trong kỳ'
+        }}</small>
+      </article>
+    </div>
+    <section class="panel">
+      <h2>Biểu đồ calories theo ngày/tháng</h2>
+      <app-chart-period-filter
+        [mode]="chartRange.mode"
+        [date]="chartRange.date"
+        [month]="chartRange.month"
+        (rangeChange)="selectChartRange($event)"
+      />
+      @if (trendBusy) {
+        <p class="subtle" role="status">Đang tải dữ liệu biểu đồ…</p>
+      }
+      @if (trendError) {
+        <p class="error" role="alert">{{ trendError }}</p>
+      }
+      @if (trend) {
+        <p class="subtle">
+          {{ trend.period.start }} – {{ trend.period.end }} · {{ trend.loggedDays }} ngày có nhật
+          ký. Bộ lọc áp dụng cho biểu đồ và bảng ngay bên dưới; phần nhận xét 7 ngày giữ khoảng thời
+          gian ghi ở đầu trang.
+        </p>
+        <app-nutrition-trend [days]="trend.days" />
+      }
+      <div class="table-scroll">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Calories đã ghi</th>
+              <th>Độ đầy đủ</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (day of trend?.days || []; track day.date) {
+              <tr>
+                <td>{{ day.date }}</td>
+                <td>{{ day.logged ? format(day.totals.calories) + ' kcal' : 'Chưa ghi' }}</td>
+                <td>
+                  {{
+                    day.completed
+                      ? 'Đã xác nhận ghi đủ'
+                      : day.logged
+                        ? 'Chưa xác nhận đủ'
+                        : 'Không có bản ghi'
+                  }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Trung bình dinh dưỡng và độ đầy đủ</h2>
+      <p class="subtle">
+        Tính trên các ngày có dữ liệu, không chia mặc định cho 7 ngày. Đạt mục tiêu được đếm trong
+        các ngày xác nhận ghi đủ, với khoảng so sánh ±{{ summary.tolerancePercent }}%.
+      </p>
+      <div class="table-scroll">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Chỉ số</th>
+              <th>Trung bình</th>
+              <th>Số ngày đủ thành phần</th>
+              <th>So với mục tiêu hiện tại</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (key of keys; track key) {
+              <tr>
+                <td>{{ labels[key] }}</td>
+                <td>
+                  {{ format(summary.averages[key].value) }}
+                  {{ summary.averages[key].value !== null ? unit(key) : '' }}
+                </td>
+                <td>{{ summary.averages[key].days }}/{{ summary.loggedDays }}</td>
+                <td>
+                  @if (summary.attainment[key]) {
+                    {{ format(summary.attainment[key].percent) }}% ·
+                    {{ summary.attainment[key].withinDays }}/{{
+                      summary.attainment[key].evaluatedDays
+                    }}
+                    ngày trong khoảng mục tiêu
+                  } @else {
+                    Chưa có mục tiêu so sánh
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Nhận xét có căn cứ</h2>
+      @for (item of summary.insights; track item.type) {
+        <article class="insight-card">
+          <span class="monitor-tag">{{
+            item.priority === 'MEDIUM' ? 'Cần theo dõi' : 'Nhận xét'
+          }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+          <p class="suggestion">{{ item.suggestion }}</p>
+          <details>
+            <summary>Dữ liệu làm căn cứ</summary>
+            <app-monitoring-evidence [value]="item.evidence" />
+          </details>
+        </article>
+      } @empty {
+        <p class="monitor-empty">
+          Chưa đủ dữ liệu để nhận xét thói quen. Cần ít nhất 3 ngày nhật ký; đánh giá thiếu chất còn
+          cần ngày được xác nhận ghi đủ.
+        </p>
+      }
+    </section>
+    <section class="panel">
+      <h2>Thói quen theo bữa</h2>
+      <p class="subtle">
+        Không suy ra thiếu hoặc thừa dinh dưỡng cho từng bữa khi chưa có mục tiêu riêng theo bữa.
+      </p>
+      <div class="table-scroll">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Bữa</th>
+              <th>Số ngày có ghi</th>
+              <th>Calories trung bình / bữa đã ghi</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (meal of ['BREAKFAST', 'LUNCH', 'DINNER', 'SNACK']; track meal) {
+              <tr>
+                <td>
+                  {{
+                    meal === 'BREAKFAST'
+                      ? 'Bữa sáng'
+                      : meal === 'LUNCH'
+                        ? 'Bữa trưa'
+                        : meal === 'DINNER'
+                          ? 'Bữa tối'
+                          : 'Bữa phụ'
+                  }}
+                </td>
+                <td>{{ summary.habits[meal].recordedDays }}</td>
+                <td>{{ format(summary.habits[meal].averageCalories) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Thành phần bổ sung theo ngày</h2>
+      <p class="subtle">
+        Ngày thiếu bất kỳ thành phần nào sẽ được ghi “Chưa đủ dữ liệu”, thay vì cộng thiếu rồi hiển
+        thị như tổng đầy đủ.
+      </p>
+      <div class="table-scroll">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Ngày</th>
+              <th>Chất xơ (g)</th>
+              <th>Đường tổng (g)</th>
+              <th>Natri (mg)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (day of summary.days; track day.date) {
+              <tr>
+                <td>{{ day.date }}</td>
+                @for (key of ['fiber', 'sugars', 'sodium']; track key) {
+                  <td>
+                    {{ format(day.totals[key])
+                    }}<small class="coverage-label"
+                      >{{ day.totals.coverage[key].knownItems }}/{{
+                        day.totals.coverage[key].totalItems
+                      }}
+                      thực phẩm có thành phần</small
+                    >
+                  </td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Tiến độ cân nặng</h2>
+      <p>
+        {{ summary.weight.count }} lần đo trong kỳ. Mục tiêu cân nặng:
+        {{ format(summary.weight.target) }}{{ summary.weight.target !== null ? ' kg' : '' }}.
+      </p>
+      @if (summary.weight.first) {
+        <p>
+          Lần đầu: {{ summary.weight.first.date }} · {{ format(summary.weight.first.kg) }} kg. Lần
+          cuối: {{ summary.weight.last.date }} · {{ format(summary.weight.last.kg) }} kg.
+        </p>
+      }
+      <p>
+        Cuối kỳ trước: {{ format(summary.previous.weight.last?.kg)
+        }}{{ summary.previous.weight.last ? ' kg' : '' }}. Chỉ so sánh khi có lần đo thực tế ở từng
+        kỳ.
+      </p>
+      <a mat-button routerLink="/weights">Cập nhật cân nặng</a>
+    </section>
+    @for (limit of summary.limitations; track limit) {
+      <p class="subtle">{{ limit }}</p>
+    }
+  } @else if (!busy) {
+    <section class="panel monitor-empty">
+      Phân tích chưa được tạo. Hệ thống đang xử lý nền; bạn có thể quay lại hoặc cập nhật sau ít
+      phút.
+    </section>
+  }
+
+  @if (settings) {
+    <section class="panel">
+      <h2>Giới hạn theo dõi cá nhân</h2>
+      <p class="subtle">
+        Không đặt mặc định ngưỡng bệnh lý. Chỉ nhập giới hạn phù hợp được chuyên gia hướng dẫn và
+        ghi rõ nguồn. Đường trong ứng dụng là đường tổng, không phải đường tự do.
+      </p>
+      <form class="form-grid" (ngSubmit)="saveSettings()">
+        <label
+          >Chất xơ tối thiểu / ngày (g)<input
+            name="fiberMin"
+            type="number"
+            [(ngModel)]="settings.fiberMin"
+            min="0"
+            max="500"
+            step="any"
+            placeholder="Chưa thiết lập" /></label
+        ><label
+          >Đường tổng tối đa / ngày (g)<input
+            name="sugarsMax"
+            type="number"
+            [(ngModel)]="settings.sugarsMax"
+            min="0"
+            max="2000"
+            step="any"
+            placeholder="Chưa thiết lập" /></label
+        ><label
+          >Natri tối đa / ngày (mg)<input
+            name="sodiumMax"
+            type="number"
+            [(ngModel)]="settings.sodiumMax"
+            min="0"
+            max="100000"
+            step="any"
+            placeholder="Chưa thiết lập" /></label
+        ><label
+          >Biến động cân nặng cần theo dõi (%)<input
+            name="weightChangePercent"
+            type="number"
+            [(ngModel)]="settings.weightChangePercent"
+            min="0.1"
+            max="100"
+            step="any"
+            placeholder="Chưa thiết lập" /></label
+        ><label
+          >Khoảng theo dõi cân nặng (ngày)<input
+            name="weightWindowDays"
+            type="number"
+            [(ngModel)]="settings.weightWindowDays"
+            min="7"
+            max="90"
+            required /></label
+        ><label
+          >Khoảng so sánh mục tiêu (±%, không phải ngưỡng y khoa)<input
+            name="targetTolerancePercent"
+            type="number"
+            [(ngModel)]="settings.targetTolerancePercent"
+            min="0"
+            max="50"
+            required /></label
+        ><label class="full"
+          >Nguồn mục tiêu / hướng dẫn chuyên gia<input
+            name="limitSource"
+            [(ngModel)]="settings.limitSource"
+            maxlength="500"
+            placeholder="Nguồn tài liệu hoặc hướng dẫn cụ thể được cung cấp" /></label
+        ><label class="full monitor-checkbox"
+          ><input name="reminders" type="checkbox" [(ngModel)]="settings.reminders" /> Nhận nhắc ghi
+          nhật ký, cân nặng và mục tiêu</label
+        >
+        <div class="full">
+          <button mat-flat-button [disabled]="saving">
+            {{ saving ? 'Đang lưu' : 'Lưu cài đặt theo dõi' }}
+          </button>
+        </div>
+      </form>
+    </section>
+  }
+
+  <section class="panel">
+    <h2>Báo cáo 7 ngày</h2>
+    <p class="subtle">
+      Tự tạo báo cáo tuần trước khi có nhật ký. Bạn cũng có thể yêu cầu tổng hợp một khoảng 7 ngày
+      đã kết thúc và xem lại báo cáo cũ.
+    </p>
+    <div class="toolbar">
+      <label
+        >Ngày bắt đầu<app-date-picker
+          [value]="reportStart"
+          (valueChange)="reportStart = $event" /></label
+      ><button mat-flat-button (click)="createReport()">Tạo/cập nhật báo cáo</button>
+    </div>
+    <div class="report-list">
+      @for (r of reports; track r.id) {
+        <button class="report-link" (click)="openReport(r.id)">
+          {{ r.weekStart.slice(0, 10) }} – {{ r.weekEnd.slice(0, 10)
+          }}<small>Cập nhật {{ date(r.updatedAt) }}</small>
+        </button>
+      } @empty {
+        <p class="monitor-empty">Chưa có báo cáo tuần.</p>
+      }
+    </div>
+    @if (cursor) {
+      <button mat-stroked-button (click)="loadReports(true)">Tải thêm báo cáo</button>
+    }
+  </section>
+  @if (report) {
+    <section class="panel">
+      <div class="panel-head">
+        <h2>Báo cáo {{ report.weekStart.slice(0, 10) }} – {{ report.weekEnd.slice(0, 10) }}</h2>
+        <button mat-button (click)="report = null">Đóng</button>
+      </div>
+      <p>
+        {{ report.payload.loggedDays }}/7 ngày có nhật ký · {{ report.payload.completedDays }} ngày
+        xác nhận ghi đủ.
+      </p>
+      <div class="table-scroll">
+        <table class="monitor-table">
+          <thead>
+            <tr>
+              <th>Chỉ số</th>
+              <th>Trung bình kỳ này</th>
+              <th>Kỳ trước</th>
+              <th>Ngày trong khoảng mục tiêu</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (key of keys; track key) {
+              <tr>
+                <td>{{ labels[key] }} ({{ unit(key) }})</td>
+                <td>{{ format(report.payload.averages[key].value) }}</td>
+                <td>{{ format(report.payload.previous.averages[key].value) }}</td>
+                <td>
+                  {{
+                    report.payload.attainment[key]
+                      ? report.payload.attainment[key].withinDays +
+                        '/' +
+                        report.payload.attainment[key].evaluatedDays
+                      : 'Chưa có mục tiêu'
+                  }}
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <p>
+        Cân nặng thay đổi trong kỳ: {{ format(report.payload.weight.change) }} kg. Cân nặng cuối kỳ
+        trước: {{ format(report.payload.previous.weight.last?.kg) }} kg. Mục tiêu:
+        {{ format(report.payload.weight.target) }} kg.
+      </p>
+      <h3>Điểm tích cực</h3>
+      @for (text of report.payload.positives; track text) {
+        <p>{{ text }}</p>
+      } @empty {
+        <p class="subtle">Chưa có đủ dữ liệu để xác định điểm tích cực.</p>
+      }
+      <h3>Điểm cần cải thiện</h3>
+      @for (text of report.payload.gaps; track text) {
+        <p>{{ text }}</p>
+      } @empty {
+        <p class="subtle">
+          Không có phát hiện từ các điều kiện đã được đánh giá; không đồng nghĩa không có vấn đề sức
+          khỏe.
+        </p>
+      }
+      <h3>Gợi ý tuần tiếp theo</h3>
+      @for (text of report.payload.nextSteps; track $index) {
+        <p>{{ text }}</p>
+      }
+      @for (item of report.payload.insights; track item.type) {
+        <article class="insight-card">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.body }}</p>
+          <p>{{ item.suggestion }}</p>
+          <app-monitoring-evidence [value]="item.evidence" />
+        </article>
+      }
+      <p class="subtle">
+        Bản tổng hợp được tính lúc {{ date(report.updatedAt) }}. Muốn phản ánh nhật ký đã sửa, hãy
+        yêu cầu cập nhật lại báo cáo.
+      </p>
+    </section>
+  }
+</div>

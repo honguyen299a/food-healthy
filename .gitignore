@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.angular/
+.env
+frontend/.env
+backend/.env
+*.log
+backend/.alert-demo-state.json

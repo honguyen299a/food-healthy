@@ -1,0 +1,455 @@
+.dashboard-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Head */
+.dash-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.badge-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #e8f7ec;
+  color: #147a38;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 999px;
+  letter-spacing: 0.04em;
+}
+.pulsing-dot {
+  width: 7px;
+  height: 7px;
+  background: #16a34a;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.2);
+}
+.date-chip {
+  font-size: 12px;
+  font-weight: 600;
+  color: #647d70;
+  background: #f1f5f2;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.dash-head h1 {
+  font-size: clamp(26px, 3.2vw, 36px);
+  letter-spacing: -0.04em;
+  margin: 0 0 6px;
+  color: #143826;
+  font-weight: 800;
+}
+.dash-head-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  .dash-head-actions {
+    align-items: flex-start;
+    width: 100%;
+  }
+}
+.date-nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #fff;
+  padding: 4px 6px;
+  border-radius: 14px;
+  border: 1px solid #e3ece5;
+  box-shadow: 0 4px 12px rgba(20, 60, 35, 0.03);
+}
+.date-btn {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  background: #f4f8f5;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 16px;
+  color: #274837;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.date-btn:hover {
+  background: #e2f0e6;
+}
+.date-picker-input {
+  border: 0;
+  padding: 4px 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #1b412e;
+  background: transparent;
+  min-height: auto;
+  cursor: pointer;
+}
+.date-picker-input:focus {
+  outline: none;
+}
+.today-btn {
+  border: 0;
+  background: #16a34a;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.quick-links {
+  display: flex;
+  gap: 8px;
+}
+
+/* Mode Callout */
+.mode-callout-panel {
+  background: linear-gradient(135deg, #eef9f1 0%, #f7fbf8 100%);
+  border: 1px solid #d4ecdb;
+  border-radius: 20px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.callout-content {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  max-width: 720px;
+}
+.callout-icon {
+  font-size: 38px;
+  line-height: 1;
+}
+.callout-content h2 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: #16462c;
+}
+.callout-content p {
+  margin: 0;
+  font-size: 13px;
+  color: #5c7969;
+  line-height: 1.6;
+}
+
+/* Bento Stats Grid */
+.bento-stats-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 16px;
+}
+@media (max-width: 1024px) {
+  .bento-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .bento-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: #fff;
+  border: 1px solid #e8efe9;
+  border-radius: 20px;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(20, 60, 35, 0.03);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 32px rgba(20, 60, 35, 0.07);
+}
+.hero-stat {
+  background: linear-gradient(145deg, #f0fbf3 0%, #ffffff 100%);
+  border-color: #d1ebd8;
+}
+.hero-stat.overflow {
+  background: linear-gradient(145deg, #fff5f5 0%, #ffffff 100%);
+  border-color: #fecdd3;
+}
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.stat-label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #5d7e6c;
+  letter-spacing: 0.08em;
+}
+.stat-badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: #15803d;
+  background: #def7e5;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+.stat-badge.badge-warn {
+  color: #b91c1c;
+  background: #fee2e2;
+}
+.stat-main {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.stat-num {
+  font-size: 32px;
+  font-weight: 800;
+  color: #143d28;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.stat-sub {
+  font-size: 14px;
+  font-weight: 500;
+  color: #7b9485;
+}
+
+.macro-name {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #274836;
+}
+.macro-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.macro-ratio {
+  font-size: 12px;
+  font-weight: 700;
+  color: #728c7c;
+}
+
+.protein-bg { background: #10b981; }
+.carbs-bg { background: #f59e0b; }
+.fat-bg { background: #3b82f6; }
+
+.stat-progress-bar {
+  height: 7px;
+  background: #eaf1ec;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.progress-fill {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  transition: width 0.4s ease;
+}
+.stat-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #698374;
+}
+.remaining-text {
+  color: #15803d;
+  font-weight: 700;
+}
+
+/* Body Metrics Bar */
+.body-metrics-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e8efe9;
+  border-radius: 18px;
+  padding: 18px 24px;
+  box-shadow: 0 6px 20px rgba(20, 60, 35, 0.025);
+}
+@media (max-width: 900px) {
+  .body-metrics-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .body-metrics-bar {
+    grid-template-columns: 1fr;
+  }
+}
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.metric-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #799485;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.metric-item strong {
+  font-size: 20px;
+  color: #173e2b;
+  font-weight: 800;
+}
+.metric-item strong small {
+  font-size: 12px;
+  font-weight: 500;
+  color: #8fa597;
+}
+.metric-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: #0f766e;
+  background: #ccfbf1;
+  padding: 2px 8px;
+  border-radius: 999px;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+.metric-desc {
+  font-size: 11px;
+  color: #8fa597;
+}
+
+/* Charts Grid */
+.charts-grid-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+@media (max-width: 960px) {
+  .charts-grid-two {
+    grid-template-columns: 1fr;
+  }
+}
+.chart-panel {
+  margin-bottom: 0;
+}
+
+/* Today's Meals Section */
+.today-foods-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 10px;
+}
+@media (max-width: 768px) {
+  .today-foods-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.today-food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fbfdfb;
+  border: 1px solid #edf4ee;
+  border-radius: 14px;
+  padding: 14px 18px;
+  gap: 16px;
+  transition: background 0.2s, transform 0.2s;
+}
+.today-food-item:hover {
+  background: #f4faf5;
+  transform: translateY(-2px);
+}
+.food-main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.meal-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 4px 8px;
+  border-radius: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.meal-badge.breakfast { background: #ffedd5; color: #c2410c; }
+.meal-badge.lunch { background: #dcfce7; color: #15803d; }
+.meal-badge.dinner { background: #f3e8ff; color: #7e22ce; }
+.meal-badge.snack { background: #cffafe; color: #0e7490; }
+
+.food-main strong {
+  display: block;
+  font-size: 14px;
+  color: #193f2a;
+}
+.food-main small {
+  font-size: 12px;
+  color: #82988b;
+}
+.food-cals {
+  text-align: right;
+}
+.food-cals b {
+  display: block;
+  font-size: 14px;
+  color: #173d2a;
+}
+.food-cals span {
+  display: block;
+  font-size: 11px;
+  color: #83998b;
+  margin-top: 2px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 45px 20px;
+}
+.empty-icon {
+  font-size: 42px;
+  display: block;
+  margin-bottom: 12px;
+}
+.empty-state h3 {
+  font-size: 17px;
+  margin: 0 0 8px;
+  color: #1a412c;
+}
+.empty-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.panel-link {
+  font-size: 13px;
+  font-weight: 700;
+  color: #16a34a;
+}
+

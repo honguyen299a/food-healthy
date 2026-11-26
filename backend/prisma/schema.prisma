@@ -1,0 +1,389 @@
+generator client {
+  provider = "prisma-client-js"
+}
+datasource db {
+  provider = "mysql"
+  url = env("DATABASE_URL")
+}
+enum Role {
+  USER
+  ADMIN
+}
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+enum Goal {
+  LOSE
+  MAINTAIN
+  GAIN
+}
+enum Activity {
+  SEDENTARY
+  LIGHT
+  MODERATE
+  ACTIVE
+  VERY_ACTIVE
+}
+enum Meal {
+  BREAKFAST
+  LUNCH
+  DINNER
+  SNACK
+}
+enum PreferenceKind {
+  ALLERGY
+  DISLIKE
+}
+enum UsageMode {
+  SELF_GUIDED
+  PERSONALIZED
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique @db.VarChar(191)
+  passwordHash String @map("password_hash")
+  role Role @default(USER)
+  usageMode UsageMode @default(SELF_GUIDED) @map("usage_mode")
+  onboardingCompleted Boolean @default(false) @map("onboarding_completed")
+  createdAt DateTime @default(now()) @map("created_at")
+  profile UserProfile?
+  mealPlans MealPlan[]
+  foodLogs FoodLog[]
+  weightLogs WeightLog[]
+  preferences UserFoodPreference[]
+  manualTarget ManualNutritionTarget?
+  customFoods Food[] @relation("CustomFoods")
+  aiConversations AiConversation[]
+  shoppingLists ShoppingList[]
+  monitoringSettings MonitoringSettings?
+  monitoringJobs MonitoringJob[]
+  healthAlerts HealthAlert[]
+  alertActions HealthAlertEvent[] @relation("AlertActor")
+  notifications Notification[]
+  insights NutritionInsight[]
+  weeklyReports NutritionWeeklyReport[]
+  monitoringSummary MonitoringSummary?
+  @@map("users")
+}
+
+model AiConversation {
+  id String @id @default(uuid()) @db.VarChar(36)
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title String @db.VarChar(100)
+  busy Boolean @default(false)
+  busyUntil DateTime? @map("busy_until")
+  draftVersion Int @default(0) @map("draft_version")
+  createdAt DateTime @default(now()) @map("created_at")
+  messages AiMessage[]
+  drafts AiDraft[]
+  @@index([userId, createdAt])
+  @@map("ai_conversations")
+}
+
+model AiMessage {
+  id Int @id @default(autoincrement())
+  conversationId String @map("conversation_id") @db.VarChar(36)
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  role String @db.VarChar(16)
+  content String @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([conversationId, id])
+  @@map("ai_messages")
+}
+
+model AiDraft {
+  id String @id @default(uuid()) @db.VarChar(36)
+  conversationId String @map("conversation_id") @db.VarChar(36)
+  conversation AiConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  version Int
+  date DateTime @db.Date
+  items Json
+  planHash String @map("plan_hash") @db.VarChar(64)
+  status String @default("PENDING") @db.VarChar(20)
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  shoppingList ShoppingList?
+  @@index([conversationId, createdAt])
+  @@map("ai_drafts")
+}
+
+model ShoppingList {
+  id String @id @default(uuid()) @db.VarChar(36)
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  draftId String @unique @map("draft_id") @db.VarChar(36)
+  draft AiDraft @relation(fields: [draftId], references: [id], onDelete: Cascade)
+  date DateTime @db.Date
+  items Json
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([userId, createdAt])
+  @@map("shopping_lists")
+}
+model UserProfile {
+  userId Int @id @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name String @db.VarChar(120)
+  age Int
+  gender Gender
+  heightCm Decimal @map("height_cm") @db.Decimal(6,2)
+  weightKg Decimal @map("weight_kg") @db.Decimal(6,2)
+  targetWeightKg Decimal? @map("target_weight_kg") @db.Decimal(6,2)
+  activity Activity
+  goal Goal
+  healthConditions Json? @map("health_conditions")
+  allergies Json?
+  dietaryPreferences Json? @map("dietary_preferences")
+  budgetPerDay Decimal? @map("budget_per_day") @db.Decimal(10,2)
+  mealsPerDay Int @default(3) @map("meals_per_day")
+  @@map("user_profiles")
+}
+model ManualNutritionTarget {
+  userId Int @id @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  calories Int
+  protein Int
+  carbs Int
+  fat Int
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("manual_nutrition_targets")
+}
+model FoodCategory {
+  id Int @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
+  foods Food[]
+  @@map("food_categories")
+}
+model Food {
+  fiber Decimal? @db.Decimal(16,8)
+  sugars Decimal? @db.Decimal(16,8)
+  sodium Decimal? @db.Decimal(16,8)
+  id Int @id @default(autoincrement())
+  name String @unique @db.VarChar(150)
+  categoryId Int @map("category_id")
+  category FoodCategory @relation(fields: [categoryId], references: [id])
+  calories Decimal @db.Decimal(8,2)
+  protein Decimal @db.Decimal(8,2)
+  carbs Decimal @db.Decimal(8,2)
+  fat Decimal @db.Decimal(8,2)
+  estimatedCost Decimal? @map("estimated_cost") @db.Decimal(10,2)
+  ownerId Int? @map("owner_id")
+  owner User? @relation("CustomFoods", fields: [ownerId], references: [id], onDelete: Cascade)
+  isActive Boolean @default(true) @map("is_active")
+  mealItems MealPlanItem[]
+  logItems FoodLogItem[]
+  preferences UserFoodPreference[]
+  @@index([categoryId])
+  @@index([ownerId])
+  @@map("foods")
+}
+model MealPlan {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date DateTime @db.Date
+  items MealPlanItem[]
+  @@unique([userId, date])
+  @@map("meal_plans")
+}
+model MealPlanItem {
+  id Int @id @default(autoincrement())
+  planId Int @map("plan_id")
+  plan MealPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  foodId Int @map("food_id")
+  food Food @relation(fields: [foodId], references: [id])
+  meal Meal
+  grams Decimal @db.Decimal(8,2)
+  @@map("meal_plan_items")
+}
+model FoodLog {
+  completed Boolean @default(false)
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date DateTime @db.Date
+  items FoodLogItem[]
+  @@unique([userId, date])
+  @@map("food_logs")
+}
+model FoodLogItem {
+  id Int @id @default(autoincrement())
+  logId Int @map("log_id")
+  log FoodLog @relation(fields: [logId], references: [id], onDelete: Cascade)
+  foodId Int @map("food_id")
+  food Food @relation(fields: [foodId], references: [id])
+  meal Meal
+  grams Decimal @db.Decimal(8,2)
+  @@map("food_log_items")
+}
+model WeightLog {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  date DateTime @db.Date
+  weightKg Decimal @map("weight_kg") @db.Decimal(6,2)
+  @@unique([userId, date])
+  @@map("weight_logs")
+}
+model UserFoodPreference {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  foodId Int @map("food_id")
+  food Food @relation(fields: [foodId], references: [id], onDelete: Cascade)
+  kind PreferenceKind
+  @@unique([userId, foodId, kind])
+  @@map("user_food_preferences")
+}
+
+enum AlertSeverity {
+  LOW
+  MEDIUM
+  HIGH
+}
+enum AlertStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+}
+enum AlertSource {
+  ACTUAL
+  PLAN
+  WEIGHT
+}
+enum NotificationType {
+  HEALTH_ALERT
+  ALERT_STATUS
+  NUTRITION_INSIGHT
+  WEIGHT_REMINDER
+  LOG_REMINDER
+  GOAL_REMINDER
+  WEEKLY_REPORT
+}
+model MonitoringSettings {
+  userId Int @id @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  fiberMin Decimal? @map("fiber_min") @db.Decimal(12,4)
+  sugarsMax Decimal? @map("sugars_max") @db.Decimal(12,4)
+  sodiumMax Decimal? @map("sodium_max") @db.Decimal(12,4)
+  weightChangePercent Decimal? @map("weight_change_percent") @db.Decimal(8,4)
+  weightWindowDays Int @default(14) @map("weight_window_days")
+  targetTolerancePercent Int @default(10) @map("target_tolerance_percent")
+  limitSource String? @map("limit_source") @db.VarChar(500)
+  reminders Boolean @default(true)
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("monitoring_settings")
+}
+model MonitoringJob {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  scope String @default("CURRENT") @db.VarChar(32)
+  revision Int @default(1)
+  processedRevision Int @default(0) @map("processed_revision")
+  runAfter DateTime @default(now()) @map("run_after")
+  lockToken String? @map("lock_token") @db.VarChar(36)
+  lockedUntil DateTime? @map("locked_until")
+  attempts Int @default(0)
+  lastError String? @map("last_error") @db.VarChar(300)
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@unique([userId,scope])
+  @@index([runAfter,lockedUntil])
+  @@map("monitoring_jobs")
+}
+model HealthAlert {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  fingerprint String @db.VarChar(150)
+  type String @db.VarChar(60)
+  source AlertSource
+  severity AlertSeverity
+  status AlertStatus @default(OPEN)
+  title String @db.VarChar(200)
+  body String @db.Text
+  evidence Json
+  adminReview Boolean @default(false) @map("admin_review")
+  conditionActive Boolean @default(true) @map("condition_active")
+  revision Int @default(1)
+  detectedAt DateTime @default(now()) @map("detected_at")
+  lastDetectedAt DateTime @default(now()) @map("last_detected_at")
+  resolvedAt DateTime? @map("resolved_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  events HealthAlertEvent[]
+  @@unique([userId,fingerprint])
+  @@index([userId,status,createdAt])
+  @@index([adminReview,severity,status])
+  @@map("health_alerts")
+}
+model HealthAlertEvent {
+  id Int @id @default(autoincrement())
+  alertId Int @map("alert_id")
+  alert HealthAlert @relation(fields:[alertId], references:[id], onDelete:Cascade)
+  actorId Int? @map("actor_id")
+  actor User? @relation("AlertActor",fields:[actorId], references:[id], onDelete:SetNull)
+  status AlertStatus
+  note String @db.VarChar(1000)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([alertId,id])
+  @@map("health_alert_events")
+}
+model Notification {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  dedupeKey String @map("dedupe_key") @db.VarChar(191)
+  type NotificationType
+  title String @db.VarChar(200)
+  body String @db.Text
+  targetPath String @map("target_path") @db.VarChar(200)
+  readAt DateTime? @map("read_at")
+  deletedAt DateTime? @map("deleted_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([userId,dedupeKey])
+  @@index([userId,deletedAt,readAt,id])
+  @@map("notifications")
+}
+model NutritionInsight {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  fingerprint String @db.VarChar(100)
+  type String @db.VarChar(60)
+  priority AlertSeverity @default(LOW)
+  title String @db.VarChar(200)
+  body String @db.Text
+  suggestion String @db.Text
+  evidence Json
+  periodStart DateTime @map("period_start") @db.Date
+  periodEnd DateTime @map("period_end") @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@unique([userId,fingerprint])
+  @@index([userId,periodStart])
+  @@map("nutrition_insights")
+}
+model NutritionWeeklyReport {
+  id Int @id @default(autoincrement())
+  userId Int @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  weekStart DateTime @map("week_start") @db.Date
+  weekEnd DateTime @map("week_end") @db.Date
+  payload Json
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@unique([userId,weekStart])
+  @@index([userId,weekStart])
+  @@map("nutrition_weekly_reports")
+}
+model MonitoringSummary {
+  userId Int @id @map("user_id")
+  user User @relation(fields:[userId], references:[id], onDelete:Cascade)
+  payload Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+  @@map("monitoring_summaries")
+}
