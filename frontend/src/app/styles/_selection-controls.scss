@@ -1,0 +1,214 @@
+@mixin styles {
+  body .mat-mdc-select {
+    display: inline-flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid #d7e4da;
+    border-radius: 11px;
+    background: #fff;
+    color: #294c37;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+    transition:
+      border-color 0.18s,
+      box-shadow 0.18s;
+  }
+  body .mat-mdc-select:hover:not(.mat-mdc-select-disabled) {
+    border-color: #9dbea5;
+  }
+  body .mat-mdc-select.mat-focused {
+    border-color: #298b50;
+    box-shadow: 0 0 0 3px #16833e12;
+  }
+  body .mat-mdc-select[aria-expanded='true'] {
+    border-color: #298b50;
+    background: #fbfefb;
+  }
+  body .mat-mdc-select.mat-mdc-select-disabled {
+    background: #f2f5f1;
+    color: #91a095;
+    cursor: not-allowed;
+  }
+  body .mat-mdc-select .mat-mdc-select-trigger {
+    gap: 12px;
+    min-height: 22px;
+  }
+  body .mat-mdc-select .mat-mdc-select-arrow {
+    color: #718b79;
+  }
+  body .mat-mdc-select .mat-mdc-select-placeholder {
+    color: #84958a;
+  }
+  body .form-grid .mat-mdc-select,
+  body .stack .mat-mdc-select {
+    display: flex;
+    width: 100%;
+  }
+  body label > .mat-mdc-select {
+    margin-top: 7px;
+  }
+  body .toolbar > .mat-mdc-select {
+    width: auto;
+    min-width: 180px;
+  }
+  body .toolbar > label {
+    min-width: 155px;
+  }
+  body .app-select-panel.mat-mdc-select-panel {
+    padding: 6px;
+    margin-block: 6px;
+    max-height: 304px;
+    border: 1px solid #dce8dc;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow:
+      0 12px 36px #244c3221,
+      0 2px 6px #244c3208;
+    scrollbar-width: thin;
+    scrollbar-color: #c0d6c3 transparent;
+  }
+  body .app-select-panel .mat-mdc-option {
+    min-height: 40px;
+    padding: 9px 12px;
+    border-radius: 7px;
+    color: #36513e;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  body .app-select-panel .mat-mdc-option + .mat-mdc-option {
+    margin-top: 2px;
+  }
+  body .app-select-panel .mat-mdc-option:hover:not(.mdc-list-item--disabled),
+  body .app-select-panel .mat-mdc-option.mat-mdc-option-active {
+    background: #f0f7ee;
+  }
+  body .app-select-panel .mat-mdc-option[aria-selected='true'] {
+    background: #e5f2e5;
+    color: #176f3b;
+    font-weight: 600;
+  }
+  body .app-select-panel .mat-pseudo-checkbox {
+    color: #16833e;
+  }
+  body .app-select-panel .mdc-list-item__primary-text {
+    line-height: 1.7;
+  }
+  body .app-date-popup .mat-calendar {
+    width: 100%;
+    font-family: inherit;
+  }
+  body .app-date-popup .mat-calendar-header {
+    padding: 0 5px;
+  }
+  body .app-date-popup .mat-calendar-controls {
+    margin: 10px 0 14px;
+  }
+  body .app-date-popup .mat-calendar-period-button {
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: #31553c;
+    letter-spacing: 0;
+  }
+  body .app-date-popup .mat-calendar-table-header {
+    color: #7d9383;
+    font-size: 11px;
+  }
+  body .app-date-popup .mat-calendar-body-label {
+    color: #96a69b;
+    font-size: 11px;
+  }
+  body .app-date-popup .mat-calendar-body-cell-content {
+    font-family: inherit;
+    font-size: 13px;
+    color: #3c5c46;
+  }
+  body .app-date-popup .mat-calendar-body-selected {
+    background: #18834c;
+    color: #fff;
+    box-shadow: none;
+  }
+  body .app-date-popup .mat-calendar-body-today:not(.mat-calendar-body-selected) {
+    border-color: #83b88e;
+  }
+  body
+    .app-date-popup
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+    .mat-calendar-body-cell-content:not(.mat-calendar-body-selected) {
+    background: #edf5e9;
+  }
+  main.app-content .records-page .date-bar {
+    width: fit-content;
+    max-width: 100%;
+    gap: 7px;
+    padding: 9px 11px;
+    border-color: #dfe8de;
+    border-radius: 14px;
+    background: #fff;
+    margin: 22px 0;
+    box-shadow: 0 3px 12px #264a2e04;
+  }
+  main.app-content .records-page .date-label {
+    margin: 0 7px 0 2px;
+    font-size: 13px;
+    color: #58725f;
+  }
+  main.app-content .records-page .date-arrow {
+    height: 38px;
+    width: 34px;
+    border: 0;
+    border-radius: 9px;
+    background: #f4f8f1;
+    color: #42704d;
+    font-size: 22px;
+  }
+  main.app-content .records-page .date-bar .mat-mdc-outlined-button {
+    margin-left: 7px;
+    min-height: 40px;
+  }
+  main.app-content .date-nav {
+    box-shadow: none;
+    padding: 6px;
+    border-color: #dfe8de;
+  }
+  @media (max-width: 600px) {
+    main.app-content .records-page .date-bar {
+      width: 100%;
+    }
+    main.app-content .records-page .date-bar {
+      display: grid;
+      grid-template-columns: 34px minmax(0, 1fr) 34px;
+    }
+    main.app-content .records-page .date-label {
+      width: 100%;
+      margin-bottom: 3px;
+      grid-column: 1/-1;
+    }
+    main.app-content .records-page .date-bar app-date-picker {
+      flex: 1;
+      min-width: 0;
+    }
+    main.app-content .records-page .date-bar .mat-mdc-outlined-button {
+      margin-left: 0;
+      grid-column: 1/-1;
+      justify-self: start;
+    }
+    body .toolbar > .mat-mdc-select {
+      width: 100%;
+      min-width: 0;
+    }
+    body .toolbar > label {
+      min-width: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body .mat-mdc-select {
+      transition: none;
+    }
+  }
+}

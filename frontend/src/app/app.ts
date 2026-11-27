@@ -1,8 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { AdminNavigationComponent } from './core/layouts/admin-navigation/admin-navigation.component';
 import { ApiService } from './core/services/api.service';
-import { NotificationBellComponent } from './core/notification-bell.component';
-import { AdminNavigationComponent } from './core/admin-navigation.component';
+import { NotificationBellComponent } from './shared/components/notification-bell/notification-bell.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -35,6 +35,7 @@ export class App implements OnInit {
             '/admin/categories': 'Nhóm thực phẩm',
             '/admin/account': 'Tài khoản quản trị',
             '/notifications': 'Thông báo quản trị',
+            '/documents': 'Tài liệu',
           } as Record<string, string>
         )[path] || 'Quản trị'
       );
@@ -47,7 +48,6 @@ export class App implements OnInit {
           dashboard: 'Tổng quan',
           alerts: 'Cảnh báo của bạn',
           notifications: 'Thông báo và cảnh báo',
-          insights: 'Phân tích dinh dưỡng',
           foods: 'Thư viện thực phẩm',
           plans: 'Kế hoạch ăn uống',
           week: 'Thực đơn tuần',
@@ -56,6 +56,7 @@ export class App implements OnInit {
           weights: 'Theo dõi cân nặng',
           ai: 'Trợ lý AI',
           profile: 'Hồ sơ và mục tiêu',
+          documents: 'Tài liệu',
           admin: 'Quản trị hệ thống',
         } as Record<string, string>
       )[path] || 'Healthy Daily'
@@ -67,10 +68,14 @@ export class App implements OnInit {
         next: (user: any) => {
           this.api.role.set(user.role);
           localStorage.setItem('healthy_role', user.role);
+          // On a direct page load, /auth/me can complete before the router's
+          // initial navigation. Use the requested browser path in that interval.
+          const currentPath = this.router.url === '/' ? window.location.pathname : this.router.url;
           if (
             user.role === 'ADMIN' &&
-            !this.router.url.startsWith('/admin') &&
-            !this.router.url.startsWith('/notifications')
+            !currentPath.startsWith('/admin') &&
+            !currentPath.startsWith('/notifications') &&
+            !currentPath.startsWith('/documents')
           )
             this.router.navigateByUrl('/admin');
           this.api.setUsageMode(user.usageMode);

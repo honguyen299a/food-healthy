@@ -1,10 +1,41 @@
 # Healthy Diet Planner
 
-Trợ lý AI chạy bằng Ollama: xem [hướng dẫn cấu hình và kiểm thử](backend/AI.md).
-
-Cảnh báo sức khỏe, thông báo và phân tích dinh dưỡng: xem [hướng dẫn sử dụng, quy tắc và API](backend/MONITORING.md).
+Plans liên kết với Logs qua thao tác xác nhận món đã ăn. Hệ thống hỗ trợ cảnh báo sức khỏe, thông báo cho người dùng và admin; trợ lý AI kết nối với Ollama.
 
 Ứng dụng Angular 21, Angular Material, NestJS 10, Prisma 5 và MySQL 8 để lập kế hoạch, theo dõi bữa ăn và cân nặng. Giao diện tiếng Việt, responsive.
+
+## Tổ chức source code
+
+```text
+backend/src/
+  app.module.ts                 # Ghép các module và đăng ký guard/interceptor toàn cục
+  main.ts                       # Khởi động API
+  common/                       # Decorator, guard, interceptor, filter, DTO phân trang, tiện ích ngày
+  database/                     # PrismaModule và PrismaService dùng chung
+  modules/
+    auth/                       # Đăng ký, đăng nhập, mật khẩu
+    profiles/                   # Khảo sát, chế độ sử dụng, mục tiêu nhập tay, sở thích
+    foods/                      # Thực phẩm, nhóm thực phẩm, quyền truy cập và phân loại
+    nutrition/                  # Công thức và mục tiêu dinh dưỡng
+    meal-records/               # Plans và Logs, trạng thái món ăn, snapshot, transaction
+    recommendations/            # Đề xuất thực đơn và lọc an toàn
+    monitoring/                 # Theo dõi, quy tắc cảnh báo, tác vụ nền, báo cáo
+    weights/                    # Nhật ký cân nặng
+    notifications/              # Thông báo
+    dashboard/                  # Tổng hợp dữ liệu và biểu đồ
+    ai/                         # Kết nối Ollama và xử lý hội thoại
+    admin/                      # Quản trị và theo dõi cảnh báo người dùng
+
+frontend/src/app/
+  core/                         # API, thông báo toàn ứng dụng, guard, điều hướng quản trị
+  shared/                       # Component dùng chung, tiện ích hiển thị và style dùng chung
+  features/                     # Mỗi chức năng chứa component, template, style và test liên quan
+  styles/                       # Design system và các lớp giao diện toàn ứng dụng
+```
+
+Mỗi module Backend khai báo controller, service và dependency trong file `*.module.ts`; DTO nằm trong module sở hữu. `PrismaModule` cung cấp một PrismaService dùng chung. Plans và Logs tiếp tục dùng chung `MealRecordsService` để giữ transaction và chống ghi nhật ký trùng. Angular dùng chung feature `meal-records` cho hai màn hình này; tài liệu hiện được cung cấp ở frontend nên không tạo thêm API tài liệu.
+
+Các đường dẫn API, URL giao diện và schema database được giữ nguyên khi tổ chức lại source. Kiểm thử Backend nằm trong `backend/test`, kiểm thử Angular nằm cạnh feature/component. Script vận hành nằm trong `backend/scripts` và `frontend/scripts`.
 
 ## Cài đặt
 
@@ -37,6 +68,23 @@ npm start
 
 Mở `http://localhost:4200`. API chạy tại `http://localhost:3000/api`.
 
+### Chạy trợ lý AI trên máy
+
+Ollama là dịch vụ riêng, cần chạy cùng Backend để trợ lý AI phản hồi. Cấu hình trong `backend/.env`:
+
+```dotenv
+OLLAMA_URL="http://127.0.0.1:11434"
+OLLAMA_MODEL="qwen3:4b-instruct"
+```
+
+Mở ứng dụng Ollama, hoặc chạy trong một terminal riêng và giữ terminal đó mở:
+
+```powershell
+ollama serve
+```
+
+Kiểm tra model bằng `ollama list`. Nếu chưa có đúng model, tải bằng `ollama pull qwen3:4b-instruct`. Nếu Ollama đã chạy thì không cần mở thêm `ollama serve`. Khi thay đổi cấu hình `.env`, khởi động lại Backend. Lần hỏi đầu có thể chậm hơn vì cần nạp model vào bộ nhớ.
+
 ## Onboarding và hai chế độ
 
 Sau khi đăng ký, khảo sát dạng từng câu chỉ xuất hiện ở lần đầu. Người dùng có thể hoàn tất để bật cá nhân hóa hoặc chọn **Bỏ qua khảo sát** để dùng chế độ tự lập kế hoạch. Có thể cập nhật khảo sát và đổi chế độ sau đó trong **Hồ sơ của tôi**; dữ liệu thực phẩm, kế hoạch, nhật ký và cân nặng cũ luôn được giữ nguyên.
@@ -57,6 +105,8 @@ Sau khi đăng ký, khảo sát dạng từng câu chỉ xuất hiện ở lần
 - Không đưa ra đề xuất điều trị khi chưa có khảo sát.
 
 ## Tài khoản demo
+
+Tạo riêng tài khoản Admin (không chạy seed, không ghi đè tài khoản có sẵn): trong thư mục `backend`, chạy `npm run admin:create`, nhập email và mật khẩu hai lần. Mật khẩu được che khi nhập và lưu bằng bcrypt. Lệnh dùng database được cấu hình trong `backend/.env`.
 
 Chạy `npm run db:seed` để tạo/cập nhật tài khoản có sẵn hồ sơ, kế hoạch hôm nay, nhật ký và lịch sử cân nặng:
 

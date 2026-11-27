@@ -1,0 +1,134 @@
+<div class="page documents-page">
+  <header class="page-head">
+    <span class="eyebrow">THƯ VIỆN KIẾN THỨC</span>
+    <h1>Tài liệu tham khảo</h1>
+    <p>Hiểu các chỉ số, tra cứu thực phẩm và tìm thêm kiến thức để chăm sóc sức khỏe.</p>
+  </header>
+
+  <section class="library-intro" aria-label="Giới thiệu thư viện">
+    <div class="intro-symbol" aria-hidden="true">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        stroke-linejoin="round"
+      >
+        <path
+          d="M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1 3-2 6-2 10-1V4c-4-1-7-1-10 1Zm0 0v15M5 8h4M5 11h4m6-3h4m-4 3h4"
+        />
+      </svg>
+    </div>
+    <div>
+      <h2>Nguồn rõ ràng, dễ tra cứu</h2>
+      <p>
+        Các tài liệu được chọn từ cơ quan y tế, đơn vị nghiên cứu và nguồn dữ liệu chuyên ngành. Mỗi
+        liên kết mở trong một tab mới.
+      </p>
+    </div>
+    <div class="library-total">
+      <strong>{{ documents.length }}</strong
+      ><span>tài liệu · 3 chủ đề</span>
+    </div>
+  </section>
+
+  <section class="document-controls" aria-label="Tìm và lọc tài liệu">
+    <label class="document-search"
+      ><span>Tìm tài liệu</span
+      ><input type="search" [(ngModel)]="search" placeholder="Ví dụ: BMI, calo, protein, giấc ngủ…"
+    /></label>
+    <div class="topic-filters" role="group" aria-label="Chủ đề tài liệu">
+      <button
+        type="button"
+        [class.selected]="!selectedTopic"
+        [attr.aria-pressed]="!selectedTopic"
+        (click)="selectedTopic = ''"
+      >
+        Tất cả
+      </button>
+      @for (topic of topics; track topic.id) {
+        <button
+          type="button"
+          [class.selected]="selectedTopic === topic.id"
+          [attr.aria-pressed]="selectedTopic === topic.id"
+          (click)="selectedTopic = topic.id"
+        >
+          {{ topic.name }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <p class="result-count" role="status" aria-live="polite">
+    {{ filteredDocuments.length }} tài liệu{{
+      selectedTopic ? ' · ' + topicName(selectedTopic) : ''
+    }}
+  </p>
+  <section class="document-grid" aria-label="Danh sách tài liệu">
+    @for (doc of filteredDocuments; track doc.id) {
+      <article class="document-card">
+        <div class="document-labels">
+          <span class="topic-label" [attr.data-topic]="doc.topic">{{ topicName(doc.topic) }}</span
+          ><span>{{ doc.format }} · {{ doc.language }}</span>
+        </div>
+        <h2>{{ doc.title }}</h2>
+        <p class="publisher">{{ doc.publisher }}</p>
+        <p class="document-description">{{ doc.description }}</p>
+        @if (doc.appUse) {
+          <p class="app-use"><span aria-hidden="true">✓</span> {{ doc.appUse }}</p>
+        }
+        <div class="document-actions">
+          <a
+            mat-stroked-button
+            [href]="doc.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="'Mở tài liệu: ' + doc.title + ' (tab mới)'"
+            >{{ doc.format === 'PDF' ? 'Mở tài liệu PDF' : 'Mở tài liệu' }}</a
+          >
+        </div>
+      </article>
+    } @empty {
+      <div class="documents-empty">
+        <h2>Chưa tìm thấy tài liệu phù hợp</h2>
+        <p>Thử từ khóa khác hoặc xem lại tất cả chủ đề.</p>
+        <button type="button" mat-stroked-button (click)="reset()">Xóa bộ lọc</button>
+      </div>
+    }
+  </section>
+
+  <details class="calculation-note">
+    <summary>Các số liệu trong ứng dụng được tính như thế nào?</summary>
+    <div class="calculation-items">
+      <div>
+        <h3>Khẩu phần thực phẩm</h3>
+        <p>
+          Mỗi chỉ số được tính bằng số liệu trên 100 g × khối lượng đã nhập ÷ 100. Các chất chưa có
+          dữ liệu được giữ ở trạng thái chưa biết.
+        </p>
+      </div>
+      <div>
+        <h3>BMI và nhu cầu năng lượng</h3>
+        <p>
+          BMI = cân nặng (kg) ÷ chiều cao (m)². Năng lượng nghỉ được ước tính theo Mifflin–St Jeor;
+          mức tiêu hao trong ngày còn phụ thuộc hệ số vận động.
+        </p>
+      </div>
+      <div>
+        <h3>Mục tiêu dinh dưỡng</h3>
+        <p>
+          Ở chế độ tự động, ứng dụng đang phân bổ năng lượng 20% từ protein, 30% từ chất béo và 50%
+          từ carbohydrate. Đây là cấu hình của ứng dụng, không phải chỉ định cá nhân từ các tài liệu
+          bên trên.
+        </p>
+      </div>
+    </div>
+  </details>
+  <footer class="documents-footer">
+    <p>
+      Tài liệu dùng để tham khảo và hiểu số liệu. Khi cần điều chỉnh chế độ ăn theo bệnh lý, hãy
+      trao đổi với bác sĩ hoặc chuyên gia dinh dưỡng.
+    </p>
+    <small>Liên kết được rà soát: {{ reviewedAt }}</small>
+  </footer>
+</div>

@@ -1,6 +1,7 @@
-import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
-import { provideRouter } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
+import { of } from 'rxjs';
 import { App } from './app';
 import { ApiService } from './core/services/api.service';
 
@@ -47,5 +48,31 @@ describe('App navigation', () => {
     for (const path of ['/logs', '/weights', '/setup', '/profile', '/ai'])
       expect(root.querySelector(`a[href="${path}"]`)).toBeNull();
     expect(root.querySelector('.topbar-right')?.textContent).toContain('Quản trị viên');
+  });
+  it('keeps Admin on the shared documents page when authentication finishes before initial routing', () => {
+    const fixture = TestBed.createComponent(App);
+    const api = TestBed.inject(ApiService),
+      router = TestBed.inject(Router);
+    const originalUrl = window.location.href;
+    const get = vi
+      .spyOn(api, 'get')
+      .mockReturnValue(
+        of<any>({ role: 'ADMIN', usageMode: 'SELF_GUIDED', onboardingCompleted: true }),
+      );
+    const navigate = vi.spyOn(router, 'navigateByUrl').mockResolvedValue(true);
+    try {
+      localStorage.setItem('healthy_token', 'test-session');
+      window.history.replaceState({}, '', '/documents');
+      expect(router.url).toBe('/');
+      fixture.componentInstance.ngOnInit();
+      expect(navigate).not.toHaveBeenCalled();
+      expect(api.role()).toBe('ADMIN');
+    } finally {
+      window.history.replaceState({}, '', originalUrl);
+      localStorage.removeItem('healthy_token');
+      localStorage.removeItem('healthy_role');
+      get.mockRestore();
+      navigate.mockRestore();
+    }
   });
 });

@@ -1,0 +1,1068 @@
+// Modern SaaS Visual Layer for Healthy Daily. Business rules, APIs, and data integrity remain 100% intact.
+@mixin theme {
+  :root {
+    --hd-bg: #f8fafc;
+    --hd-surface: #ffffff;
+    --hd-surface-subtle: #f1f5f9;
+    --hd-ink: #0f172a;
+    --hd-ink-secondary: #334155;
+    --hd-muted: #64748b;
+    --hd-line: #e2e8f0;
+    --hd-line-subtle: #f1f5f9;
+    --hd-accent: #059669;
+    --hd-accent-hover: #047857;
+    --hd-accent-light: #10b981;
+    --hd-accent-soft: #ecfdf5;
+    --hd-accent-border: #a7f3d0;
+    --hd-sidebar: #ffffff;
+    --hd-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --hd-shadow: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -2px rgba(15, 23, 42, 0.03);
+    --hd-shadow-md: 0 10px 20px -3px rgba(15, 23, 42, 0.06), 0 4px 6px -4px rgba(15, 23, 42, 0.03);
+    --hd-shadow-lg: 0 20px 25px -5px rgba(15, 23, 42, 0.07), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    --mat-sys-primary: #059669;
+    --mat-sys-on-primary: #ffffff;
+    --mat-sys-outline: #cbd5e1;
+    --mat-sys-surface: #ffffff;
+  }
+  body {
+    background: var(--hd-bg);
+    color: var(--hd-ink);
+    font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  a {
+    color: var(--hd-accent);
+    transition: color 0.15s ease;
+  }
+  a:hover {
+    color: var(--hd-accent-hover);
+  }
+  button,
+  a,
+  input,
+  :is(select, mat-select),
+  textarea {
+    -webkit-tap-highlight-color: transparent;
+  }
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid var(--hd-accent-light);
+    outline-offset: 2px;
+  }
+  button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  main.app-content .page {
+    max-width: 1440px;
+    padding: 32px clamp(20px, 2.8vw, 48px) 64px;
+  }
+  main.app-content .page-head {
+    margin-bottom: 24px;
+    max-width: 880px;
+  }
+  main.app-content .eyebrow,
+  main.app-content .board-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--hd-accent);
+  }
+  main.app-content .page-head h1,
+  main.app-content .dash-head h1,
+  main.app-content .week-hero h1 {
+    font-size: clamp(26px, 2.6vw, 36px);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.25;
+    color: var(--hd-ink);
+    margin: 8px 0;
+  }
+  main.app-content .page-head p,
+  main.app-content .week-hero p,
+  main.app-content .dash-head p {
+    font-size: 13.5px;
+    color: var(--hd-muted);
+    line-height: 1.7;
+  }
+  main.app-content .panel,
+  main.app-content .stat-card,
+  main.app-content .food-card {
+    background: var(--hd-surface);
+    border: 1px solid var(--hd-line);
+    border-radius: 16px;
+    box-shadow: var(--hd-shadow);
+    color: var(--hd-ink);
+    transition: box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease, transform 0.2s ease;
+  }
+  main.app-content .panel {
+    padding: 24px 28px;
+    margin-bottom: 24px;
+  }
+  main.app-content .panel h2 {
+    font-size: 18px;
+    letter-spacing: -0.02em;
+    color: var(--hd-ink);
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  main.app-content .panel h3 {
+    color: var(--hd-ink-secondary);
+    font-weight: 600;
+  }
+  main.app-content .stat-card:hover,
+  main.app-content .food-card:hover {
+    transform: none;
+    box-shadow: 0 7px 28px #183b480a;
+    border-color: #cbdcdf;
+  }
+  main.app-content .subtle {
+    color: var(--hd-muted);
+    font-size: 12px;
+    line-height: 1.8;
+  }
+  main.app-content .two-cols {
+    gap: 24px;
+    align-items: start;
+  }
+  main.app-content .toolbar,
+  main.app-content .date-bar {
+    gap: 12px;
+    background: var(--hd-surface);
+    border: 1px solid var(--hd-line);
+    border-radius: 14px;
+    padding: 16px;
+    margin: 0 0 20px;
+  }
+  main.app-content .toolbar > input {
+    flex: 1;
+    max-width: 460px;
+    padding-left: 16px;
+  }
+  main.app-content .form-grid {
+    gap: 18px 20px;
+  }
+  main.app-content label {
+    color: #4a626c;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  main.app-content input,
+  main.app-content :is(select, mat-select),
+  main.app-content textarea {
+    background: #fbfcfd;
+    border: 1px solid #dce6e9;
+    border-radius: 9px;
+    color: var(--hd-ink);
+    min-height: 44px;
+    font-size: 13px;
+    box-shadow: none;
+    transition:
+      border-color 0.15s,
+      box-shadow 0.15s;
+  }
+  main.app-content input::placeholder,
+  main.app-content textarea::placeholder {
+    color: #93a3aa;
+  }
+  main.app-content input:focus,
+  main.app-content :is(select, mat-select):focus,
+  main.app-content textarea:focus {
+    outline: none;
+    border-color: #59a571;
+    box-shadow: 0 0 0 3px #16833e14;
+    background: #fff;
+  }
+  main.app-content input[type='checkbox'],
+  main.app-content input[type='radio'] {
+    accent-color: var(--hd-accent);
+    min-height: auto;
+  }
+  main.app-content .mat-mdc-unelevated-button,
+  main.app-content .mat-mdc-outlined-button,
+  .public-main .mat-mdc-unelevated-button {
+    min-height: 43px;
+    border-radius: 9px;
+    font-size: 12px;
+    letter-spacing: 0;
+    font-weight: 600;
+    --mat-button-filled-container-color: #16833e;
+    --mat-button-filled-label-text-color: #fff;
+    --mat-button-outlined-label-text-color: #16833e;
+    --mat-button-outlined-outline-color: #d4e1e4;
+  }
+  main.app-content .mat-mdc-button {
+    --mat-button-text-label-text-color: #16833e;
+    font-size: 12px;
+    letter-spacing: 0;
+  }
+  main.app-content .list-row {
+    padding: 15px 0;
+    border-color: #edf1f3;
+  }
+  main.app-content .list-row:hover {
+    background: #f9fbfc;
+  }
+  main.app-content .list-row b {
+    color: var(--hd-ink);
+    font-size: 13px;
+  }
+  main.app-content .list-row span,
+  main.app-content .list-row small {
+    color: var(--hd-muted);
+  }
+  main.app-content .notice {
+    background: #edf7f3;
+    border: 1px solid #d5ebe2;
+    border-left: 3px solid #33905a;
+    color: #346a44;
+    font-size: 13px;
+    line-height: 1.7;
+    border-radius: 10px;
+  }
+  main.app-content .error {
+    background: #fff2f1;
+    border: 1px solid #f4dbd7;
+    border-left: 3px solid #c65648;
+    color: #9f3f36;
+    font-size: 13px;
+    line-height: 1.7;
+    border-radius: 10px;
+  }
+  main.app-content .empty-state {
+    border: 1px dashed #cadcde;
+    background: #fafdfc;
+    border-radius: 16px;
+    padding: 46px 24px;
+  }
+  main.app-content .empty-state h2,
+  main.app-content .empty-state h3 {
+    color: #324f59;
+  }
+  main.app-content .empty-icon,
+  main.app-content .empty-state .spark {
+    background: #edf7ed;
+    color: var(--hd-accent);
+    border-radius: 15px;
+  }
+
+  // Overview, including the existing live chart components.
+  main.app-content .dashboard-page {
+    gap: 24px;
+  }
+  main.app-content .dash-head {
+    margin-bottom: 0;
+    gap: 22px;
+  }
+  main.app-content .badge-row {
+    gap: 9px;
+    flex-wrap: wrap;
+  }
+  main.app-content .status-pill {
+    background: #e6f4ef;
+    color: #347448;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0;
+    padding: 6px 10px;
+  }
+  main.app-content .pulsing-dot {
+    width: 6px;
+    height: 6px;
+    background: #33905a;
+    box-shadow: none;
+  }
+  main.app-content .date-chip {
+    background: #eaf0f3;
+    color: #647d88;
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+  main.app-content .date-nav {
+    gap: 7px;
+  }
+  main.app-content .date-btn,
+  main.app-content .today-btn,
+  main.app-content .date-arrow {
+    border-radius: 9px;
+    border-color: var(--hd-line);
+    color: #42626c;
+    background: #fff;
+  }
+  main.app-content .bento-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+  }
+  main.app-content .bento-stats-grid .stat-card {
+    padding: 22px;
+    min-height: 192px;
+    border-radius: 15px;
+  }
+  main.app-content .bento-stats-grid .hero-stat {
+    background: #edf8ef;
+    border-color: #edf8ef;
+    color: #245332;
+  }
+  main.app-content .hero-stat .stat-label,
+  main.app-content .hero-stat .stat-sub,
+  main.app-content .hero-stat .stat-footer,
+  main.app-content .hero-stat .remaining-text {
+    color: #54745d;
+  }
+  main.app-content .hero-stat .stat-num {
+    color: #195f2f;
+  }
+  main.app-content .hero-stat .stat-badge {
+    background: #dcefe0;
+    color: #306e43;
+    border: 1px solid #cfe5d3;
+  }
+  main.app-content .hero-stat.overflow {
+    background: #fff5ee;
+    border-color: #f0d9c7;
+  }
+  main.app-content .hero-stat .progress-fill {
+    background: #45a464;
+  }
+  main.app-content .hero-stat .stat-progress-bar {
+    background: #d5e8d9;
+  }
+  main.app-content .stat-num {
+    font-size: clamp(27px, 2.8vw, 38px);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+  }
+  main.app-content .macro-name,
+  main.app-content .stat-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #607780;
+  }
+  main.app-content .stat-sub {
+    color: #8698a0;
+    font-size: 12px;
+  }
+  main.app-content .stat-footer {
+    font-size: 10px;
+    color: #84969f;
+  }
+  main.app-content .macro-ratio {
+    background: #f1f5f7;
+    color: #526b77;
+    font-size: 10px;
+    border-radius: 6px;
+  }
+  main.app-content .stat-progress-bar {
+    height: 5px;
+    background: #edf2f4;
+    border-radius: 8px;
+  }
+  main.app-content .protein-bg {
+    background: #359b5e;
+  }
+  main.app-content .carbs-bg {
+    background: #d5a24d;
+  }
+  main.app-content .fat-bg {
+    background: #7e8fc3;
+  }
+  main.app-content .body-metrics-bar {
+    background: #fff;
+    border: 1px solid var(--hd-line);
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: none;
+  }
+  main.app-content .metric-item strong {
+    color: #243e49;
+    font-size: 19px;
+  }
+  main.app-content .metric-item {
+    border-color: var(--hd-line);
+  }
+  main.app-content .metric-label,
+  main.app-content .metric-desc {
+    color: #788c96;
+    font-size: 10px;
+  }
+  main.app-content .chart-panel {
+    min-width: 0;
+  }
+  main.app-content .chart-panel .panel-head {
+    padding-bottom: 16px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #edf2f4;
+  }
+  main.app-content .chart-panel .panel-head h2 {
+    font-size: 15px;
+    margin: 0;
+  }
+  main.app-content .today-food-item {
+    background: #fafcfc;
+    border: 1px solid #edf2f3;
+    border-radius: 12px;
+    box-shadow: none;
+  }
+  main.app-content .today-food-item:hover {
+    background: #f3f9f7;
+  }
+  main.app-content .food-main strong,
+  main.app-content .food-cals b {
+    color: #34533c;
+  }
+  main.app-content .mode-callout-panel,
+  main.app-content .mode-callout {
+    background: #edf7f4;
+    border-color: #cfe7de;
+    border-radius: 15px;
+  }
+
+  // Keep labels and footer values compact; global stat typography applies only to the primary number.
+  main.app-content .bento-stats-grid .stat-card strong {
+    display: inline;
+    margin: 0;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  main.app-content .bento-stats-grid .stat-card .stat-num {
+    display: block;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 0;
+  }
+  main.app-content .bento-stats-grid .stat-main {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 14px 0 18px;
+  }
+  main.app-content .bento-stats-grid .stat-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 30px;
+    margin-bottom: 0;
+  }
+  main.app-content .bento-stats-grid .macro-name {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    min-width: 0;
+    line-height: 1.5;
+  }
+  main.app-content .bento-stats-grid .macro-ratio {
+    flex-shrink: 0;
+    padding: 4px 6px;
+  }
+  main.app-content .bento-stats-grid .stat-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 6px;
+    margin-top: 14px;
+    min-height: 18px;
+    line-height: 1.6;
+  }
+  main.app-content .bento-stats-grid .stat-footer .remaining-text {
+    font-size: 11px;
+    font-weight: 600;
+  }
+  main.app-content .bento-stats-grid .stat-footer small {
+    font-size: 10px;
+  }
+  main.app-content .bento-stats-grid .hero-stat {
+    border: 1px solid #d8eadb;
+  }
+  main.app-content .bento-stats-grid .hero-stat .stat-badge {
+    font-size: 9px;
+    line-height: 1.5;
+    max-width: 95px;
+    padding: 5px 7px;
+    border-radius: 7px;
+  }
+
+  // Food library.
+  main.app-content .food-grid {
+    gap: 16px;
+    align-items: stretch;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  main.app-content .food-card {
+    padding: 20px;
+    border-radius: 16px;
+    background: #ffffff;
+    border: 1px solid var(--hd-line);
+    box-shadow: var(--hd-shadow);
+    grid-template-columns: 46px minmax(0, 1fr) auto;
+    gap: 14px;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  main.app-content .food-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: var(--hd-shadow-md);
+  }
+  main.app-content .food-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    background: #ecfdf5;
+    color: var(--hd-accent);
+    font-size: 24px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #a7f3d0;
+  }
+  main.app-content .food-card h3 {
+    color: #0f172a;
+    font-size: 14.5px;
+    font-weight: 700;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+  main.app-content .food-card > strong {
+    color: var(--hd-accent);
+    font-size: 19px;
+    font-weight: 800;
+  }
+  main.app-content .food-card small {
+    font-size: 11px;
+    color: var(--hd-muted);
+  }
+  main.app-content .food-nutrient-list {
+    border-color: #f1f5f9;
+    font-size: 12px;
+  }
+  main.app-content .food-nutrient-list > div {
+    padding: 9px 0;
+    border-color: #f1f5f9;
+  }
+  main.app-content .food-nutrient-list dd {
+    color: #0f172a;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+  main.app-content .food-nutrient-list dt {
+    color: var(--hd-muted);
+  }
+  main.app-content .food-nutrient-list dd.missing {
+    color: #94a3b8;
+    font-size: 11px;
+  }
+  main.app-content .category-filters {
+    gap: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  main.app-content .category-filter {
+    border-radius: 9999px;
+    font-size: 12px;
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    color: #475569;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  main.app-content .category-filter:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: #0f172a;
+  }
+  main.app-content .category-filter.selected {
+    background: var(--hd-accent);
+    border-color: var(--hd-accent);
+    color: #ffffff;
+    box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+  }
+  main.app-content .card-actions {
+    border-top: 1px solid #f1f5f9;
+    padding-top: 10px;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+
+  // Meal plans, journal and week view.
+  main.app-content .meal-group {
+    margin-bottom: 22px;
+    padding-bottom: 8px;
+  }
+  main.app-content .meal-group h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13.5px;
+    font-weight: 700;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 10px;
+    padding: 10px 14px;
+    color: #0f172a;
+  }
+  main.app-content .meal-group .list-row {
+    padding: 14px 8px;
+    border-color: #f1f5f9;
+  }
+  main.app-content .complete-plan-item {
+    background: #ffffff;
+    color: #475569;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    border: 1px solid #cbd5e1;
+    box-shadow: none;
+  }
+  main.app-content .plan-item-status {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 10.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-top: 4px;
+    background: #f1f5f9;
+    color: #475569;
+  }
+  main.app-content .plan-item-status[data-status='COMPLETED'] {
+    background: #ecfdf5;
+    color: #059669;
+    border: 1px solid #a7f3d0;
+  }
+  main.app-content .plan-item-status[data-status='SKIPPED'] {
+    background: #f1f5f9;
+    color: #94a3b8;
+  }
+  main.app-content .summary {
+    border-top: 2px solid #e2e8f0;
+    color: #0f172a;
+    padding: 20px 0 0;
+    font-size: 14px;
+  }
+  main.app-content .summary strong {
+    color: var(--hd-accent);
+    font-size: 22px;
+    font-weight: 800;
+  }
+  main.app-content .portion-preview,
+  main.app-content .meal-analysis,
+  main.app-content .daily-analysis {
+    background: #f8fafc;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+    padding: 14px 16px;
+    margin-top: 10px;
+  }
+  main.app-content .analysis-note {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: none;
+    padding: 14px 16px;
+  }
+  main.app-content .analysis-note p {
+    color: var(--hd-muted);
+    font-size: 12.5px;
+    margin: 0;
+  }
+  main.app-content .week-page {
+    --week-green: #059669;
+    --week-dark: #0f172a;
+    --week-muted: #64748b;
+  }
+  main.app-content .week-controls,
+  main.app-content .week-board {
+    background: #ffffff;
+    border: 1px solid var(--hd-line);
+    border-radius: 16px;
+    box-shadow: var(--hd-shadow);
+  }
+  main.app-content .week-controls {
+    padding: 18px 22px;
+  }
+  main.app-content .week-summary strong {
+    color: #0f172a;
+  }
+  main.app-content .day-card {
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    box-shadow: var(--hd-shadow-sm);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  main.app-content .day-card.has-plan {
+    background: #ffffff;
+  }
+  main.app-content .day-card.today {
+    box-shadow: 0 0 0 2px var(--hd-accent-light), var(--hd-shadow);
+  }
+  main.app-content .day-card:hover {
+    transform: translateY(-2px);
+    border-color: #cbd5e1;
+    box-shadow: var(--hd-shadow-md);
+  }
+  main.app-content .day-number,
+  main.app-content .calorie-stat strong {
+    color: #0f172a;
+  }
+  main.app-content .day-action {
+    border-radius: 8px;
+  }
+  main.app-content .has-plan .day-action {
+    background: #ecfdf5;
+    color: #059669;
+  }
+  main.app-content .today-badge {
+    background: var(--hd-accent);
+    color: #ffffff;
+  }
+  main.app-content .week-tip {
+    background: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 12px;
+    color: #065f46;
+  }
+
+  // Profile, recommendations, administration and AI.
+  main.app-content .option-cards button,
+  main.app-content .mode-actions button {
+    border-radius: 10px;
+    border-color: #dce7e9;
+    color: #536e77;
+  }
+  main.app-content .option-cards .selected,
+  main.app-content .mode-actions .selected {
+    background: #e8f5f0;
+    border-color: #6caf80;
+    color: #1e6d58;
+  }
+  main.app-content .recommendation-head {
+    background: #edf6f3;
+    border-color: #d3e8e0;
+  }
+  main.app-content .day-card .food-row {
+    border-color: #e9eff1;
+    font-size: 13px;
+  }
+  main.app-content .ai-layout {
+    grid-template-columns: 230px minmax(0, 1fr);
+  }
+  main.app-content .conversations {
+    background: #fafcfc;
+    padding: 18px;
+  }
+  main.app-content .conversation {
+    font-size: 12px;
+    color: #667e87;
+    border-radius: 8px;
+    line-height: 1.7;
+  }
+  main.app-content .conversation.active,
+  main.app-content .conversation:hover {
+    background: #e7f2ee;
+    color: #216c38;
+  }
+  main.app-content .chat {
+    border-radius: 16px;
+  }
+  main.app-content .chat .options {
+    border-color: var(--hd-line);
+  }
+  main.app-content .bubble {
+    background: #f1f5f6;
+    border: 1px solid #e8eef0;
+    border-radius: 12px 12px 12px 2px;
+    font-size: 13px;
+  }
+  main.app-content .bubble.user {
+    background: #e8f4ef;
+    border-color: #dcebe5;
+    border-radius: 12px 12px 2px 12px;
+  }
+  main.app-content .bubble strong {
+    color: #46754f;
+    font-size: 10px;
+  }
+  main.app-content .macro-summary {
+    background: #edf6f2;
+    border-radius: 10px;
+    color: #346457;
+    font-size: 13px;
+  }
+  main.app-content .confirm {
+    background: #fff9eb;
+    border: 1px solid #ecdcb7;
+    border-radius: 12px;
+  }
+  main.app-content .confirm p {
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  main.app-content .shopping summary {
+    font-size: 13px;
+    color: #3c5e69;
+  }
+  main.app-content .shopping details p {
+    font-size: 13px;
+    color: #748276;
+  }
+
+  // Account and onboarding screens.
+  .public-main app-auth .auth-layout {
+    background: #f6f9f8;
+  }
+  .public-main app-auth .auth-visual {
+    margin: 24px;
+    border-radius: 24px;
+    overflow: hidden;
+    min-height: calc(100vh - 128px);
+  }
+  .public-main app-auth .auth-visual-shade {
+    background: linear-gradient(180deg, #103b3820, #103b38df);
+  }
+  .public-main app-auth .auth-card {
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    padding: 20px 12px;
+  }
+  .public-main app-auth .auth-card h1 {
+    color: #243e49;
+    font-size: 34px;
+    letter-spacing: -0.045em;
+  }
+  .public-main app-auth .auth-visual-content h2 {
+    font-size: clamp(30px, 3.5vw, 48px);
+    letter-spacing: -0.05em;
+  }
+  .public-main app-auth .auth-switch a {
+    color: #16833e;
+  }
+  // Page layouts share a rhythm while keeping their task-specific controls.
+  main.app-content .records-page .analysis-note {
+    margin-bottom: 0;
+  }
+  main.app-content .profile-page > .panel:first-of-type {
+    background: #f0f7ee;
+    border-color: #dcebd7;
+  }
+  main.app-content .weights-page canvas {
+    max-height: 360px;
+  }
+  main.app-content .admin-page .stats-grid {
+    margin-bottom: 28px;
+  }
+  main.app-content .admin-page .stat-card {
+    padding: 22px;
+    min-height: 125px;
+  }
+  main.app-content .recommendations-page .toolbar {
+    row-gap: 22px;
+  }
+  main.app-content .day-card .food-row > b {
+    font-size: 12px;
+    color: #3e6b46;
+    white-space: nowrap;
+  }
+  @media (min-width: 1101px) {
+    main.app-content .records-page .two-cols {
+      grid-template-columns: minmax(0, 1.4fr) minmax(310px, 0.85fr);
+    }
+    main.app-content .records-page .two-cols > div:last-child {
+      position: sticky;
+      top: 24px;
+    }
+    main.app-content .weights-page .two-cols {
+      grid-template-columns: minmax(0, 1.6fr) minmax(310px, 1fr);
+    }
+    main.app-content .profile-page .two-cols {
+      grid-template-columns: minmax(0, 1.4fr) minmax(310px, 1fr);
+    }
+  }
+
+  @media (min-width: 1600px) {
+    main.app-content .page {
+      padding-top: 44px;
+    }
+  }
+  @media (max-width: 1200px) {
+    main.app-content .food-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    main.app-content .bento-stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    main.app-content .charts-grid-two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 1000px) {
+    main.app-content .page {
+      padding: 28px 24px 60px;
+    }
+    main.app-content .two-cols {
+      grid-template-columns: 1fr;
+    }
+    main.app-content .ai-layout {
+      grid-template-columns: 1fr;
+    }
+    main.app-content .conversations nav {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      max-height: 130px;
+    }
+    main.app-content .conversations > button {
+      width: auto;
+    }
+  }
+  @media (max-width: 700px) {
+    main.app-content .page {
+      padding: 24px 16px 48px;
+    }
+    main.app-content .page-head h1,
+    main.app-content .dash-head h1,
+    main.app-content .week-hero h1 {
+      font-size: 26px;
+    }
+    main.app-content .panel {
+      padding: 20px;
+    }
+    main.app-content .food-grid,
+    main.app-content .charts-grid-two {
+      grid-template-columns: 1fr;
+    }
+    main.app-content .bento-stats-grid {
+      gap: 12px;
+    }
+    main.app-content .bento-stats-grid .stat-card {
+      padding: 16px;
+      min-height: 176px;
+    }
+    main.app-content .stat-num {
+      font-size: 29px;
+    }
+    main.app-content .stat-footer {
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    main.app-content .form-grid {
+      grid-template-columns: 1fr;
+    }
+    main.app-content .toolbar {
+      padding: 12px;
+    }
+    main.app-content .toolbar > input {
+      min-width: 0;
+      max-width: none;
+      width: 100%;
+      flex-basis: 100%;
+    }
+    main.app-content .body-metrics-bar {
+      padding: 18px;
+      gap: 18px;
+    }
+    main.app-content .metric-item {
+      min-width: 0;
+    }
+    main.app-content .conversations nav {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    main.app-content .options label {
+      width: 100%;
+    }
+  }
+  @media (max-width: 1300px) and (min-width: 701px) {
+    main.app-content .food-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  main.app-content .food-card > div:first-of-type {
+    min-height: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  @media (max-width: 700px) {
+    main.app-content .week-navigation {
+      display: grid;
+      grid-template-columns: 44px minmax(0, 1fr) 44px;
+      gap: 8px;
+      width: 100%;
+    }
+    main.app-content .week-navigation .date-control {
+      display: block;
+      min-width: 0;
+    }
+    main.app-content .week-navigation .date-control > span {
+      display: none;
+    }
+    main.app-content .week-navigation .nav-button {
+      width: 44px;
+      min-width: 44px;
+    }
+    main.app-content .week-navigation .today-button {
+      grid-column: 1/-1;
+      justify-self: start;
+      margin-top: 4px;
+    }
+    main.app-content .week-navigation app-date-picker {
+      display: block;
+      width: 100%;
+      min-width: 0;
+    }
+    main.app-content .week-navigation .calendar-trigger {
+      width: 100%;
+      padding: 0 8px;
+      white-space: nowrap;
+      justify-content: center;
+      gap: 6px;
+    }
+    main.app-content .week-navigation .calendar-trigger .date-text {
+      font-size: 11px;
+    }
+    main.app-content .week-summary {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      width: 100%;
+    }
+    main.app-content .week-summary > div {
+      border: 0;
+      border-radius: 8px;
+      background: #f5f8f3;
+      padding: 12px;
+    }
+    main.app-content .board-heading h2 {
+      font-size: 20px;
+    }
+  }
+  @media (max-width: 420px) {
+    main.app-content .bento-stats-grid {
+      grid-template-columns: 1fr;
+    }
+    main.app-content .bento-stats-grid .stat-card {
+      min-height: 170px;
+      padding: 20px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

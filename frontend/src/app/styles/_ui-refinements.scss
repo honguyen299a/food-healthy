@@ -1,0 +1,429 @@
+@mixin styles {
+  // A status needs its own space: keep both the label and the status readable on one line.
+  main.app-content .bento-stats-grid .hero-stat .stat-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 9px;
+  }
+  main.app-content .bento-stats-grid .hero-stat .stat-label {
+    white-space: nowrap;
+    font-size: 12px;
+    letter-spacing: 0;
+    font-weight: 600;
+  }
+  main.app-content .bento-stats-grid .hero-stat .stat-badge {
+    white-space: nowrap;
+    max-width: none;
+    width: auto;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.4;
+    padding: 6px 10px;
+    border-radius: 7px;
+  }
+  main.app-content .bento-stats-grid .stat-card {
+    min-height: 220px;
+  }
+
+  // Give each nutrient card a distinct palette without changing its data or layout.
+  main.app-content .dashboard-page .bento-stats-grid {
+    .stat-card {
+      --nutrient-surface: #ffffff;
+      --nutrient-border: #a7f3d0;
+      --nutrient-accent: #059669;
+      --nutrient-text: #0f172a;
+      --nutrient-muted: #64748b;
+      --nutrient-track: #f1f5f9;
+      background: var(--nutrient-surface);
+      border-color: var(--nutrient-border);
+    }
+
+    .protein-stat {
+      --nutrient-surface: #ffffff;
+      --nutrient-border: #bae6fd;
+      --nutrient-accent: #0284c7;
+      --nutrient-text: #0f172a;
+      --nutrient-muted: #64748b;
+      --nutrient-track: #f0f9ff;
+    }
+
+    .carbs-stat {
+      --nutrient-surface: #ffffff;
+      --nutrient-border: #fde68a;
+      --nutrient-accent: #d97706;
+      --nutrient-text: #0f172a;
+      --nutrient-muted: #64748b;
+      --nutrient-track: #fefce8;
+    }
+
+    .fat-stat {
+      --nutrient-surface: #ffffff;
+      --nutrient-border: #ddd6fe;
+      --nutrient-accent: #7c3aed;
+      --nutrient-text: #0f172a;
+      --nutrient-muted: #64748b;
+      --nutrient-track: #faf5ff;
+    }
+
+    .hero-stat.overflow {
+      --nutrient-surface: #ffffff;
+      --nutrient-border: #fecaca;
+      --nutrient-accent: #dc2626;
+      --nutrient-text: #0f172a;
+      --nutrient-muted: #64748b;
+      --nutrient-track: #fef2f2;
+
+      .stat-badge {
+        background: var(--nutrient-track);
+        border-color: var(--nutrient-border);
+        color: var(--nutrient-accent);
+      }
+    }
+
+    .stat-card {
+      .stat-num,
+      .macro-name,
+      .macro-ratio,
+      .remaining-text {
+        color: var(--nutrient-text);
+      }
+
+      .stat-label,
+      .stat-sub,
+      .stat-footer,
+      .stat-footer small {
+        color: var(--nutrient-muted);
+      }
+
+      .macro-ratio,
+      .stat-progress-bar {
+        background: var(--nutrient-track);
+      }
+
+      .macro-dot,
+      .progress-fill {
+        background: var(--nutrient-accent);
+      }
+    }
+  }
+
+  // Each chart occupies the entire height of its grid cell.
+  main.app-content .dashboard-page .chart-workspace {
+    margin-bottom: 0;
+
+    .chart-workspace-header {
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid #e5ece7;
+    }
+
+    .chart-workspace-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+
+      h2 {
+        margin: 0;
+      }
+
+      .period-filter {
+        margin: 0;
+      }
+    }
+
+    .chart-workspace-header > .subtle {
+      margin: 10px 0 0;
+    }
+
+    .chart-block,
+    app-weight-chart {
+      min-width: 0;
+    }
+
+    .charts-grid-two {
+      gap: 24px;
+    }
+
+    .charts-grid-two > :last-child {
+      border-left: 1px solid #e5ece7;
+      padding-left: 24px;
+    }
+
+    .charts-grid-two + .charts-grid-two,
+    .trend-block {
+      border-top: 1px solid #e5ece7;
+      margin-top: 24px;
+      padding-top: 24px;
+    }
+
+    .charts-grid-two > app-weight-chart > .weight-panel {
+      padding: 0;
+      margin: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      box-shadow: none;
+    }
+
+    .weight-panel:has(.weight-empty-note) .chart-wrapper {
+      display: none;
+    }
+
+    .weight-empty-note {
+      padding: 20px 10px;
+    }
+
+    @media (max-width: 960px) {
+      .charts-grid-two {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .charts-grid-two > :last-child {
+        border-left: 0;
+        padding-left: 0;
+        border-top: 1px solid #e5ece7;
+        padding-top: 24px;
+      }
+
+      .chart-workspace-toolbar {
+        align-items: flex-start;
+      }
+    }
+  }
+
+  main.app-content .charts-grid-two {
+    align-items: stretch;
+  }
+  main.app-content .charts-grid-two > app-weight-chart {
+    display: flex;
+    min-width: 0;
+  }
+  main.app-content .charts-grid-two > app-weight-chart > .weight-panel {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  main.app-content .charts-grid-two > app-weight-chart .chart-wrapper {
+    flex: 0 0 250px;
+    height: 250px;
+    min-height: 250px;
+    max-height: 250px;
+  }
+  main.app-content .charts-grid-two > .chart-panel {
+    height: 100%;
+    margin: 0;
+  }
+  main.app-content app-meal-chart .meal-cards-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  main.app-content app-meal-chart .meal-pill {
+    padding: 14px;
+    min-width: 0;
+    min-height: 112px;
+    border-radius: 11px;
+  }
+  main.app-content app-meal-chart .meal-pill:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  main.app-content app-meal-chart .meal-pill-head {
+    gap: 9px;
+    align-items: center;
+  }
+  main.app-content app-meal-chart .meal-pill-head strong {
+    white-space: nowrap;
+    font-size: 12px;
+  }
+  main.app-content app-meal-chart .meal-pill-head small {
+    display: block;
+    margin-top: 3px;
+  }
+  main.app-content app-meal-chart .meal-pill-body {
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+  main.app-content app-meal-chart .meal-pill-body span {
+    white-space: nowrap;
+  }
+  main.app-content app-meal-chart .meal-pill-body b {
+    font-size: 21px;
+  }
+  @media (min-width: 1800px) {
+    main.app-content app-meal-chart .meal-cards-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 1350px) and (min-width: 701px) {
+    main.app-content .bento-stats-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  // Compact, consistent action sizes, without decorative arrow icons.
+  .public-header .public-signup,
+  app-landing .landing-primary,
+  app-landing .landing-secondary,
+  main.app-content .mat-mdc-unelevated-button,
+  main.app-content .mat-mdc-outlined-button {
+    min-height: 42px;
+    padding: 0 18px;
+    border-radius: 9px;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  app-landing .landing-primary,
+  app-landing .landing-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .public-header .public-signup {
+    gap: 0;
+  }
+
+  // The public header and auth content together fit the viewport. Keep natural scrolling only
+  // as an accessibility fallback for unusually short screens or enlarged text.
+  .public-main:has(app-auth) {
+    min-height: 0;
+    height: calc(100dvh - 80px);
+  }
+  .public-main app-auth {
+    display: block;
+    height: 100%;
+  }
+  .public-main app-auth .auth-layout {
+    height: 100%;
+    min-height: 0;
+  }
+  .public-main app-auth .auth-visual {
+    height: calc(100% - 40px);
+    min-height: 0;
+    margin: 20px;
+    border-radius: 20px;
+  }
+  .public-main app-auth .auth-form-wrap {
+    min-height: 0;
+    height: 100%;
+    padding: 20px 32px;
+  }
+  .public-main app-auth .auth-card {
+    width: min(100%, 360px);
+    padding: 0;
+    animation: none;
+  }
+  .public-main app-auth .auth-card .eyebrow {
+    font-size: 10px;
+  }
+  .public-main app-auth .auth-card h1 {
+    font-size: 30px;
+    margin: 10px 0 8px;
+    line-height: 1.3;
+  }
+  .public-main app-auth .auth-card > p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+  .public-main app-auth .auth-card form.auth-fields {
+    gap: 18px;
+    margin-top: 22px;
+  }
+  .public-main app-auth .auth-card mat-form-field {
+    --mat-form-field-container-height: 48px;
+    --mat-form-field-container-vertical-padding: 12px;
+    --mat-form-field-outlined-container-shape: 9px;
+    --mat-form-field-outlined-outline-color: #cedbd0;
+    --mat-form-field-outlined-hover-outline-color: #95b09b;
+    --mat-form-field-outlined-focus-outline-color: #16833e;
+    --mat-form-field-outlined-label-text-size: 14px;
+    font-size: 14px;
+  }
+  // The outline wrapper supplies the border and spacing. Applying the global native-input
+  // padding/min-height here would make each Material field unnecessarily tall.
+  .public-main app-auth .auth-card input.mat-mdc-input-element {
+    min-height: 0;
+    height: 24px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    font-size: 14px;
+    line-height: 24px;
+  }
+  .public-main app-auth .auth-card form button {
+    height: 44px;
+    min-height: 44px;
+    margin-top: 2px;
+    padding: 0 18px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  .public-main app-auth .auth-card .auth-switch {
+    margin: 20px 0 0 !important;
+  }
+  .public-main app-auth .auth-card .auth-disclaimer {
+    margin: 20px 0 0;
+    padding-top: 14px;
+    font-size: 10px !important;
+    line-height: 1.6;
+  }
+  .public-main app-auth .auth-card .error {
+    margin: 12px 0 0;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+  .public-main app-auth .auth-visual-content {
+    bottom: 9%;
+    animation: none;
+  }
+  .public-main app-auth .auth-visual-content h2 {
+    font-size: clamp(28px, 3vw, 42px);
+  }
+  @media (max-width: 800px) {
+    .public-main app-auth .auth-layout {
+      grid-template-columns: 1fr;
+    }
+    .public-main app-auth .auth-visual {
+      display: none;
+    }
+    .public-main app-auth .auth-form-wrap {
+      padding: 20px 24px;
+    }
+  }
+  @media (max-width: 700px) {
+    .public-main:has(app-auth) {
+      height: calc(100dvh - 70px);
+    }
+  }
+  @media (max-height: 640px) {
+    .public-main app-auth .auth-form-wrap {
+      padding-top: 12px;
+      padding-bottom: 12px;
+    }
+    .public-main app-auth .auth-card h1 {
+      font-size: 26px;
+      margin: 7px 0;
+    }
+    .public-main app-auth .auth-card form.auth-fields {
+      margin-top: 14px;
+      gap: 14px;
+    }
+    .public-main app-auth .auth-card .auth-switch {
+      margin-top: 12px !important;
+    }
+    .public-main app-auth .auth-card .auth-disclaimer {
+      margin-top: 12px;
+      padding-top: 10px;
+    }
+  }
+}

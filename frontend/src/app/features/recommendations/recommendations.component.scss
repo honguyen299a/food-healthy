@@ -1,0 +1,178 @@
+.recommend-controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  padding: 18px 22px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+  margin: 20px 0;
+}
+.recommend-date {
+  display: grid;
+  gap: 6px;
+}
+.recommend-date > span {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.fixed-meals {
+  display: grid;
+  gap: 6px;
+  padding-left: 22px;
+  border-left: 1px solid #e2e8f0;
+}
+.fixed-meals strong {
+  font-size: 14px;
+  color: #0f172a;
+}
+.fixed-meals > span {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.6;
+}
+.generate-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+.empty-state {
+  text-align: center;
+  padding: 56px 24px;
+}
+.empty-state .spark {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+  font-size: 24px;
+  margin: 0 auto 18px;
+}
+.recommendation-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.recommend-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+.draft-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+.draft-day-head h2 {
+  margin: 6px 0 0 !important;
+  font-size: 24px !important;
+  color: #0f172a !important;
+  font-weight: 800 !important;
+}
+.draft-day-head h2 small {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 500;
+}
+.four-meal-tag {
+  font-size: 11.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: #ecfdf5;
+  color: #059669;
+  border: 1px solid #a7f3d0;
+}
+.draft-meal {
+  margin-top: 18px;
+}
+.draft-meal h3 {
+  font-size: 14px !important;
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  margin: 0 0 8px !important;
+}
+.food-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid #edf2ea;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.food-row div {
+  display: grid;
+  gap: 4px;
+}
+.food-row strong {
+  font-weight: 600;
+}
+.food-row span,
+.empty-meal {
+  font-size: 12px;
+  color: #899882;
+}
+.food-row > b {
+  font-size: 12px;
+  white-space: nowrap;
+  color: #4c7254;
+}
+.empty-meal {
+  line-height: 1.8;
+  margin: 0;
+  padding: 10px 12px;
+  background: #f8faf5;
+  border-radius: 8px;
+}
+.day-card > a {
+  display: inline-block;
+  margin-top: 22px;
+  font-size: 13px;
+  font-weight: 600;
+}
+@media (max-width: 900px) {
+  .recommend-grid {
+    grid-template-columns: 1fr;
+  }
+  .generate-actions {
+    margin-left: 0;
+    width: 100%;
+  }
+  .recommendation-head {
+    flex-direction: column;
+  }
+}
+@media (max-width: 550px) {
+  .recommend-controls {
+    align-items: start;
+    gap: 16px;
+  }
+  .fixed-meals {
+    padding: 0;
+    border: 0;
+    width: 100%;
+  }
+  .generate-actions {
+    gap: 8px;
+  }
+  .recommendation-head .inline-actions {
+    flex-wrap: wrap;
+  }
+}

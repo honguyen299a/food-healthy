@@ -1,0 +1,129 @@
+:host {
+  display: inline-block;
+  max-width: 100%;
+  min-width: 0;
+}
+.dp-shell {
+  display: flex;
+  min-width: 0;
+}
+.dp-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--date-picker-control-height, 42px);
+  padding: 9px 12px;
+  border: 1px solid #d9e6d9;
+  border-radius: 10px;
+  background: #fff;
+  color: #33583d;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.6;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.dp-trigger > svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: #34834c;
+}
+.dp-trigger .dp-chevron {
+  width: 14px;
+  height: 14px;
+  margin-left: 4px;
+  color: #8ba18d;
+  transition: transform 0.15s;
+}
+.dp-chevron.open {
+  transform: rotate(180deg);
+}
+.dp-trigger:hover,
+.dp-trigger[aria-expanded='true'] {
+  background: #f7fbf4;
+  border-color: #98bf9d;
+}
+.dp-trigger:focus-visible,
+.dp-popup button:focus-visible {
+  outline: 2px solid #298b50;
+  outline-offset: 3px;
+}
+.dp-popup {
+  width: 304px;
+  max-width: calc(100vw - 32px);
+  padding: 10px 12px 12px;
+  background: #fff;
+  border: 1px solid #dce7d9;
+  border-radius: 16px;
+  box-shadow: 0 16px 42px #21432b26;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+.dp-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 5px 4px;
+  border-bottom: 1px solid #edf2e9;
+}
+.dp-top > span {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  font-weight: 600;
+  color: #8a9a8d;
+}
+.dp-close {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 7px;
+  background: transparent;
+  color: #829086;
+  font-size: 21px;
+  cursor: pointer;
+}
+.dp-close:hover {
+  background: #eff5ec;
+}
+.dp-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 5px 0;
+  border-top: 1px solid #edf2e9;
+}
+.dp-footer > span {
+  font-size: 12px;
+  color: #829185;
+}
+.dp-footer button {
+  padding: 7px 12px;
+  border: 1px solid #d8e8d6;
+  border-radius: 8px;
+  background: #eef7e9;
+  color: #357847;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.dp-footer button:hover {
+  background: #e0f0db;
+}
+@media (prefers-reduced-motion: reduce) {
+  .dp-trigger,
+  .dp-chevron {
+    transition: none;
+  }
+}

@@ -1,0 +1,48 @@
+// Shared severity colours for complete alert cards, previews and table rows.
+@mixin styles {
+  .alert-surface.alert-surface[data-alert-severity='HIGH'] {
+    --alert-bg: #fee2e2;
+    --alert-hover: #fecaca;
+    --alert-border: #f5a5a5;
+    --alert-ink: #171717;
+  }
+  .alert-surface.alert-surface[data-alert-severity='MEDIUM'] {
+    --alert-bg: #fef3c7;
+    --alert-hover: #fde68a;
+    --alert-border: #ebcc75;
+    --alert-ink: #171717;
+  }
+  .alert-surface.alert-surface[data-alert-severity='LOW'] {
+    --alert-bg: #dcfce7;
+    --alert-hover: #bbf7d0;
+    --alert-border: #a5d8b5;
+    --alert-ink: #171717;
+  }
+  .alert-surface.alert-surface:is(
+      [data-alert-severity='HIGH'],
+      [data-alert-severity='MEDIUM'],
+      [data-alert-severity='LOW']
+    ) {
+    background: var(--alert-bg);
+    border-color: var(--alert-border);
+    color: var(--alert-ink);
+
+    // Keep labels and secondary text legible against the tinted surface.
+    :is(h2, h3, strong, b, p, small, td, .subtle, .text-link),
+    > span:not(.severity) {
+      color: var(--alert-ink);
+    }
+
+    &.active,
+    &:is(button, tr):hover,
+    &:is(button, tr):focus-visible {
+      background: var(--alert-hover);
+      border-color: var(--alert-border);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--alert-ink);
+      outline-offset: 2px;
+    }
+  }
+}

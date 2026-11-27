@@ -1,0 +1,96 @@
+<div class="page recommendations-page">
+  <div class="page-head">
+    <span class="eyebrow">ĐỀ XUẤT TỰ ĐỘNG</span>
+    <h1>Thực đơn được gợi ý riêng cho bạn</h1>
+    <p>
+      Xem trước kế hoạch bữa sáng, bữa trưa, bữa tối và bữa phụ. Bạn có thể chỉnh sửa hoặc từ chối
+      trước khi lưu.
+    </p>
+  </div>
+  @if (api.usageMode() !== 'PERSONALIZED') {
+    <section class="panel empty-state">
+      <span class="spark">✦</span>
+      <h2>Hoàn thiện hồ sơ để nhận đề xuất phù hợp</h2>
+      <p class="subtle">Bạn vẫn có thể tự lập kế hoạch nếu chưa muốn sử dụng khảo sát.</p>
+      <a mat-flat-button routerLink="/profile">Cập nhật hồ sơ</a>
+    </section>
+  } @else {
+    <section class="recommend-controls" aria-label="Tạo đề xuất">
+      <div class="recommend-date">
+        <span>Ngày bắt đầu</span><app-date-picker [value]="date" (valueChange)="date = $event" />
+      </div>
+      <div class="fixed-meals">
+        <strong>4 bữa mỗi ngày</strong><span>Bữa sáng · Bữa trưa · Bữa tối · Bữa phụ</span>
+      </div>
+      <div class="generate-actions">
+        <button mat-flat-button [disabled]="busy" (click)="generateDay()">
+          {{ busy ? 'Đang tạo đề xuất…' : 'Gợi ý một ngày' }}</button
+        ><button mat-stroked-button [disabled]="busy" (click)="generateWeek()">Gợi ý 7 ngày</button>
+      </div>
+    </section>
+    @if (error) {
+      <p class="error" role="alert">{{ error }}</p>
+    }
+    @if (notice) {
+      <p class="notice" role="status">{{ notice }}</p>
+    }
+    @if (result) {
+      <section class="panel recommendation-head">
+        <div>
+          <span class="eyebrow">BẢN NHÁP CHƯA LƯU</span>
+          <h2>{{ isWeek ? 'Thực đơn 7 ngày' : 'Thực đơn ngày ' + previewStart }}</h2>
+          <p class="subtle">{{ result.disclaimer }}</p>
+        </div>
+        <div class="inline-actions">
+          <button mat-flat-button [disabled]="saving || busy || !hasDraftItems" (click)="save()">
+            {{ saving ? 'Đang lưu' : 'Lưu bản nháp' }}</button
+          ><button mat-button [disabled]="saving || busy" (click)="reject()">Từ chối</button>
+        </div>
+      </section>
+      @for (warning of result.safetyWarnings || []; track warning) {
+        <p class="notice">{{ warning }}</p>
+      }
+      <div class="recommend-grid">
+        @for (day of draftDays; track day.date) {
+          <article class="panel day-card">
+            <div class="draft-day-head">
+              <div>
+                <span class="eyebrow">{{ day.date }}</span>
+                <h2>{{ n(day.totals.calories) }} <small>kcal dự kiến</small></h2>
+              </div>
+              <span class="four-meal-tag">{{ populatedMeals(day) }}/4 bữa có món</span>
+            </div>
+            @for (warning of day.planWarnings || []; track warning) {
+              <p class="notice" role="status">{{ warning }}</p>
+            }
+            @for (meal of mealSlots; track meal) {
+              <section class="draft-meal">
+                <h3>{{ mealNames[meal] }}</h3>
+                @for (item of draftItems(day, meal); track item.foodId) {
+                  <div class="food-row">
+                    <div>
+                      <strong>{{ item.food.name }}</strong
+                      ><span>{{ item.grams }} g</span>
+                    </div>
+                    <b>{{ n((item.food.calories * item.grams) / 100) }} kcal</b>
+                  </div>
+                } @empty {
+                  <p class="empty-meal">Chưa có món phù hợp với dữ liệu và mục tiêu còn lại.</p>
+                }
+              </section>
+            }
+            <a routerLink="/plans" [queryParams]="{ date: day.date }">Mở kế hoạch để tự chọn món</a>
+          </article>
+        }
+      </div>
+    } @else {
+      <section class="panel empty-state">
+        <span class="spark">✦</span>
+        <h2>Sẵn sàng cho kế hoạch tiếp theo?</h2>
+        <p class="subtle">
+          Bốn bữa đã được thiết lập sẵn. Chọn gợi ý một ngày hoặc 7 ngày để xem bản nháp.
+        </p>
+      </section>
+    }
+  }
+</div>

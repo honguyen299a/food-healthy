@@ -1,0 +1,272 @@
+.ai-layout {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+.conversations {
+  padding: 18px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+.conversations > button {
+  width: 100%;
+  background: #059669;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(5, 150, 105, 0.22);
+}
+.conversations nav {
+  display: grid;
+  gap: 6px;
+  margin-top: 16px;
+  max-height: 520px;
+  overflow-y: auto;
+}
+.conversation {
+  border: 1px solid transparent;
+  background: transparent;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  color: #475569;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+  transition: all 0.15s ease;
+}
+.conversation:hover {
+  background: #f8fafc;
+  color: #0f172a;
+}
+.conversation.active {
+  background: #ecfdf5;
+  color: #059669;
+  font-weight: 600;
+  border-color: #a7f3d0;
+}
+.chat {
+  padding: 24px;
+  min-width: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+.options {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 18px;
+}
+.options label {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.options :is(select, mat-select) {
+  max-width: 100%;
+  padding: 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
+  font: inherit;
+  font-size: 13px;
+}
+.messages {
+  min-height: 280px;
+  max-height: 520px;
+  overflow-y: auto;
+  padding: 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.bubble {
+  align-self: flex-start;
+  max-width: 86%;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px 16px 16px 4px;
+  padding: 14px 18px;
+  overflow-wrap: anywhere;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+.bubble.user {
+  align-self: flex-end;
+  background: #ecfdf5;
+  border-color: #a7f3d0;
+  border-radius: 16px 16px 4px 16px;
+}
+.bubble strong {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.bubble.user strong {
+  color: #059669;
+}
+.bubble p {
+  white-space: pre-wrap;
+  margin: 6px 0 0;
+  line-height: 1.65;
+  font-size: 13.5px;
+  color: #0f172a;
+}
+.bubble.user p {
+  color: #064e3b;
+}
+.welcome {
+  text-align: center;
+  padding: 32px 16px;
+  color: #64748b;
+}
+.welcome h2 {
+  font-size: 20px;
+  color: #0f172a;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.welcome p {
+  font-size: 13.5px;
+  margin-bottom: 20px;
+}
+.examples,
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.examples button {
+  border-radius: 9999px;
+  font-size: 12.5px;
+  border-color: #cbd5e1;
+}
+.examples {
+  justify-content: center;
+}
+.composer {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+}
+.composer textarea {
+  flex: 1;
+  min-width: 0;
+  resize: vertical;
+  border: 1px solid #d5e2d7;
+  border-radius: 12px;
+  padding: 12px;
+  font: inherit;
+}
+.draft,
+.shopping {
+  margin-top: 22px;
+  padding: 26px;
+}
+.draft-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+}
+.macro-summary {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 16px;
+  background: #eff8f0;
+  border-radius: 12px;
+}
+.draft-items {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 26px;
+  margin: 15px 0;
+}
+.draft-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e6eee6;
+}
+.draft-item div {
+  display: grid;
+  gap: 4px;
+}
+.draft-item span {
+  font-size: 13px;
+  color: #607969;
+}
+.confirm {
+  margin-top: 20px;
+  background: #fff8e8;
+  border: 1px solid #eadbb8;
+  border-radius: 12px;
+  padding: 20px;
+}
+.shopping details {
+  padding: 12px 0;
+  border-bottom: 1px solid #e6eee6;
+}
+.shopping summary {
+  cursor: pointer;
+}
+.shopping details p {
+  display: flex;
+  justify-content: space-between;
+  max-width: 480px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+button:disabled {
+  cursor: default;
+}
+@media (max-width: 900px) {
+  .ai-layout {
+    grid-template-columns: 1fr;
+  }
+  .conversations nav {
+    max-height: 140px;
+  }
+  .draft-items {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 550px) {
+  .chat,
+  .draft,
+  .shopping {
+    padding: 16px;
+  }
+  .composer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .bubble {
+    max-width: 100%;
+  }
+  .draft-head {
+    flex-direction: column;
+  }
+  .options label {
+    width: 100%;
+  }
+}

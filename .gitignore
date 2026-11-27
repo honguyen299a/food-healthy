@@ -6,3 +6,6 @@ frontend/.env
 backend/.env
 *.log
 backend/.alert-demo-state.json
+backend/.paired-demo-state.json
+backend/.food-catalog-backup.json
+.tmp/
