@@ -1,0 +1,445 @@
+[
+  {
+    "code": "GRAINS",
+    "name": "Ngũ cốc, tinh bột",
+    "sortOrder": 1,
+    "subgroups": [
+      {
+        "name": "Gạo và ngũ cốc",
+        "foods": [
+          "Gạo trắng",
+          "Gạo lứt",
+          "Gạo nếp",
+          "Yến mạch",
+          "Ngô",
+          "Ngô ngọt",
+          "Bột mì",
+          "Bột gạo",
+          "Gạo lứt chín"
+        ]
+      },
+      {
+        "name": "Bánh mì",
+        "foods": [
+          "Bánh mì trắng",
+          "Bánh mì nguyên cám",
+          "Bánh mì sandwich"
+        ]
+      },
+      {
+        "name": "Mì, bún và các loại sợi",
+        "foods": [
+          "Mì trứng",
+          "Mì gạo",
+          "Bún tươi",
+          "Bún khô",
+          "Phở tươi",
+          "Phở khô",
+          "Miến"
+        ]
+      },
+      {
+        "name": "Khoai và củ giàu tinh bột",
+        "foods": [
+          "Khoai lang",
+          "Khoai tây",
+          "Khoai môn",
+          "Khoai sọ",
+          "Khoai mì"
+        ]
+      },
+      {
+        "name": "Các loại bánh từ tinh bột",
+        "foods": [
+          "Bánh tráng",
+          "Bánh phở"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "VEGETABLES",
+    "name": "Rau củ",
+    "sortOrder": 2,
+    "subgroups": [
+      {
+        "name": "Rau lá",
+        "foods": [
+          "Rau muống",
+          "Rau cải xanh",
+          "Cải thìa",
+          "Cải bó xôi",
+          "Rau dền",
+          "Rau mồng tơi",
+          "Xà lách",
+          "Rau diếp",
+          "Rau lang",
+          "Rau tần ô"
+        ]
+      },
+      {
+        "name": "Rau họ cải",
+        "foods": [
+          "Bông cải xanh",
+          "Bông cải trắng",
+          "Bắp cải",
+          "Bắp cải tím"
+        ]
+      },
+      {
+        "name": "Rau củ quả",
+        "foods": [
+          "Cà chua",
+          "Dưa leo",
+          "Bí đỏ",
+          "Bí xanh",
+          "Mướp",
+          "Khổ qua",
+          "Bầu",
+          "Cà tím",
+          "Đậu bắp",
+          "Ớt chuông",
+          "Ớt"
+        ]
+      },
+      {
+        "name": "Rau củ rễ và gia vị",
+        "foods": [
+          "Cà rốt",
+          "Củ cải trắng",
+          "Củ dền",
+          "Hành tây",
+          "Hành tím",
+          "Tỏi",
+          "Gừng",
+          "Nghệ",
+          "Sả"
+        ]
+      },
+      {
+        "name": "Nấm và các loại rau khác",
+        "foods": [
+          "Nấm rơm",
+          "Nấm hương",
+          "Nấm kim châm",
+          "Nấm bào ngư",
+          "Nấm mỡ",
+          "Măng",
+          "Giá đỗ",
+          "Đậu Hà Lan",
+          "Đậu cô ve",
+          "Đậu đũa",
+          "Bắp non"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "FRUITS",
+    "name": "Trái cây",
+    "sortOrder": 3,
+    "subgroups": [
+      {
+        "name": "Trái cây phổ biến",
+        "foods": [
+          "Chuối",
+          "Xoài",
+          "Đu đủ",
+          "Dưa hấu",
+          "Dưa lưới",
+          "Dứa",
+          "Ổi",
+          "Bơ",
+          "Mít",
+          "Sầu riêng",
+          "Chôm chôm",
+          "Nhãn",
+          "Vải",
+          "Mãng cầu ta",
+          "Mãng cầu xiêm",
+          "Khế",
+          "Me",
+          "Dừa tươi"
+        ]
+      },
+      {
+        "name": "Trái cây họ cam quýt",
+        "foods": [
+          "Cam",
+          "Quýt",
+          "Bưởi",
+          "Chanh xanh",
+          "Chanh vàng",
+          "Chanh dây",
+          "Tắc"
+        ]
+      },
+      {
+        "name": "Trái cây phổ biến quốc tế",
+        "foods": [
+          "Táo",
+          "Lê",
+          "Đào",
+          "Mận",
+          "Cherry",
+          "Kiwi",
+          "Nho",
+          "Dâu tây",
+          "Việt quất"
+        ]
+      },
+      {
+        "name": "Trái cây khô",
+        "foods": [
+          "Nho khô",
+          "Chuối sấy",
+          "Táo khô",
+          "Chà là"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "MEAT_POULTRY",
+    "name": "Thịt và gia cầm",
+    "sortOrder": 4,
+    "subgroups": [
+      {
+        "name": "Thịt gà",
+        "foods": [
+          "Ức gà",
+          "Đùi gà",
+          "Cánh gà",
+          "Gà nguyên con",
+          "Thịt gà xay",
+          "Ức gà luộc"
+        ]
+      },
+      {
+        "name": "Thịt vịt",
+        "foods": [
+          "Thịt vịt"
+        ]
+      },
+      {
+        "name": "Thịt heo",
+        "foods": [
+          "Thịt heo nạc",
+          "Thịt nạc thăn",
+          "Thịt nạc vai",
+          "Thịt nạc đùi",
+          "Thịt ba chỉ",
+          "Thịt mông",
+          "Sườn heo",
+          "Thịt heo xay",
+          "Mỡ heo"
+        ]
+      },
+      {
+        "name": "Thịt bò",
+        "foods": [
+          "Thịt bò nạc",
+          "Thăn bò",
+          "Bắp bò",
+          "Thịt bò xay",
+          "Thịt bò vai"
+        ]
+      },
+      {
+        "name": "Thịt khác và thịt chế biến",
+        "foods": [
+          "Thịt dê",
+          "Thịt cừu",
+          "Xúc xích",
+          "Jambon",
+          "Bacon",
+          "Lạp xưởng",
+          "Chả lụa",
+          "Chả bò",
+          "Pate",
+          "Thịt hộp"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "SEAFOOD",
+    "name": "Hải sản và cá",
+    "sortOrder": 5,
+    "subgroups": [
+      {
+        "name": "Cá",
+        "foods": [
+          "Cá hồi",
+          "Cá ngừ",
+          "Cá thu",
+          "Cá rô phi",
+          "Cá rô",
+          "Cá lóc",
+          "Cá chép",
+          "Cá trắm",
+          "Cá nục",
+          "Cá mòi",
+          "Cá cơm",
+          "Cá trích"
+        ]
+      },
+      {
+        "name": "Tôm",
+        "foods": [
+          "Tôm khô"
+        ]
+      },
+      {
+        "name": "Mực và bạch tuộc",
+        "foods": [
+          "Mực ống",
+          "Mực nang",
+          "Mực khô",
+          "Bạch tuộc"
+        ]
+      },
+      {
+        "name": "Các loại hải sản khác",
+        "foods": [
+          "Cua",
+          "Ghẹ",
+          "Nghêu",
+          "Hàu",
+          "Ốc",
+          "Hến",
+          "Vẹm"
+        ]
+      },
+      {
+        "name": "Thực phẩm chế biến từ hải sản",
+        "foods": [
+          "Cá khô",
+          "Cá hộp",
+          "Cá ngừ đóng hộp"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "EGGS",
+    "name": "Trứng",
+    "sortOrder": 6,
+    "subgroups": [
+      {
+        "name": "Trứng và thành phần trứng",
+        "foods": [
+          "Trứng gà",
+          "Trứng vịt",
+          "Trứng cút",
+          "Lòng trắng trứng",
+          "Lòng đỏ trứng",
+          "Trứng vịt lộn"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "DAIRY",
+    "name": "Sữa và chế phẩm từ sữa",
+    "sortOrder": 7,
+    "subgroups": [
+      {
+        "name": "Sữa",
+        "foods": [
+          "Sữa tươi không đường",
+          "Sữa tươi ít béo",
+          "Sữa tươi nguyên kem",
+          "Sữa tách béo",
+          "Sữa đặc",
+          "Sữa bột"
+        ]
+      },
+      {
+        "name": "Sữa chua",
+        "foods": [
+          "Sữa chua không đường",
+          "Sữa chua ít béo",
+          "Sữa chua Hy Lạp",
+          "Sữa chua trái cây"
+        ]
+      },
+      {
+        "name": "Phô mai",
+        "foods": [
+          "Phô mai thông thường",
+          "Mozzarella",
+          "Cheddar",
+          "Cream cheese",
+          "Phô mai lát"
+        ]
+      },
+      {
+        "name": "Các chế phẩm khác",
+        "foods": [
+          "Bơ động vật",
+          "Whipping cream"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "LEGUMES_NUTS",
+    "name": "Đậu, hạt và thực phẩm từ đậu",
+    "sortOrder": 8,
+    "subgroups": [
+      {
+        "name": "Các loại đậu",
+        "foods": [
+          "Đậu xanh",
+          "Đậu đen",
+          "Đậu đỏ",
+          "Đậu nành",
+          "Đậu gà",
+          "Đậu lăng",
+          "Đậu Hà Lan khô"
+        ]
+      },
+      {
+        "name": "Thực phẩm từ đậu",
+        "foods": [
+          "Đậu phụ",
+          "Đậu phụ non",
+          "Đậu phụ chiên",
+          "Tàu hũ",
+          "Sữa đậu nành",
+          "Tempeh"
+        ]
+      },
+      {
+        "name": "Hạt và quả hạch",
+        "foods": [
+          "Hạnh nhân",
+          "Hạt điều",
+          "Óc chó",
+          "Đậu phộng",
+          "Hạt mè",
+          "Hạt chia",
+          "Hạt lanh",
+          "Hạt bí",
+          "Hạt hướng dương",
+          "Hạt dẻ cười"
+        ]
+      }
+    ]
+  },
+  {
+    "code": "PREPARED",
+    "name": "Món ăn chế biến sẵn",
+    "sortOrder": 9,
+    "subgroups": [
+      {
+        "name": "Món từ trứng",
+        "foods": [
+          "Trứng gà luộc",
+          "Trứng gà chiên"
+        ]
+      }
+    ]
+  }
+]

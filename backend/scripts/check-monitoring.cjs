@@ -9,16 +9,12 @@ const { NestFactory } = require("@nestjs/core");
 const { ValidationPipe } = require("@nestjs/common");
 const { JwtService } = require("@nestjs/jwt");
 const { AppModule } = require("../dist/app.module");
-const { PrismaService } = require("../dist/services/prisma.service");
-const { MonitoringService } = require("../dist/services/monitoring.service");
-const {
-  MonitoringJobsService,
-} = require("../dist/services/monitoring-jobs.service");
-const {
-  NotificationsService,
-} = require("../dist/services/notifications.service");
-const { PrismaErrorFilter } = require("../dist/prisma-error.filter");
-const { localToday, addDays } = require("../dist/monitoring-analysis");
+const { PrismaService } = require("../dist/database/prisma.service");
+const { MonitoringService } = require("../dist/modules/monitoring/monitoring.service");
+const { MonitoringJobsService } = require("../dist/modules/monitoring/monitoring-jobs.service");
+const { NotificationsService } = require("../dist/modules/notifications/notifications.service");
+const { PrismaErrorFilter } = require("../dist/common/filters/prisma-error.filter");
+const { localToday, addDays } = require("../dist/common/utils/date");
 
 async function main() {
   const app = await NestFactory.create(AppModule, { logger: false });
@@ -438,7 +434,10 @@ async function main() {
       where: { userId_scope: { userId, scope: "CURRENT" } },
     });
     assert.ok(afterSharedEdit.revision > beforeSharedEdit.revision);
-    assert.equal((await api("a", `/logs?date=${today}`)).totals.calories, 200);
+    // Editing a library food changes future portions, while previously eaten
+    // food keeps its recorded nutrition snapshot.
+    assert.equal((await api("admin", `/foods/${shared.id}`)).calories, '200');
+    assert.equal((await api("a", `/logs?date=${today}`)).totals.calories, 150);
     const adminNotices = await api("admin", "/notifications?limit=50");
     assert.ok(
       adminNotices.items.some(
@@ -454,11 +453,15 @@ async function main() {
       `/admin/users/${adminId}/role`,
       "PUT",
       { role: "USER" },
-      400,
+      404,
     );
     await api("admin", `/admin/users/${otherId}/role`, "PUT", {
       role: "ADMIN",
-    });
+    }, 404);
+    assert.equal((await db.user.findUniqueOrThrow({ where: { id: otherId } })).role, "USER");
+    // Existing administrator roles remain supported; only fixtures are changed
+    // directly here to verify that current database roles override JWT claims.
+    await db.user.update({ where: { id: otherId }, data: { role: "ADMIN" } });
     await api("b", "/profile", "GET", undefined, 403);
     await api("b", "/admin/dashboard");
     const roleNotice = await db.notification.create({
@@ -471,7 +474,7 @@ async function main() {
         targetPath: "/admin/alerts?id=1",
       },
     });
-    await api("admin", `/admin/users/${otherId}/role`, "PUT", { role: "USER" });
+    await db.user.update({ where: { id: otherId }, data: { role: "USER" } });
     await api("b", "/admin/dashboard", "GET", undefined, 403);
     assert.equal(
       (await api("b", "/notifications")).items.some(
@@ -672,7 +675,7 @@ async function main() {
       await db.notification.count({
         where: { userId, dedupeKey: `report:${report.id}` },
       }),
-      1,
+      0, // Legacy reports remain readable; notifications are reserved for health alerts.
     );
     assert.equal(
       (await api("a", `/insights/reports/${report.id}`)).payload.loggedDays,
@@ -692,6 +695,52 @@ async function main() {
     );
     await api("a", "/insights/reports", "POST", { start: "2026-02-31" }, 400);
     await api("a", "/insights/reports", "POST", { start: today }, 400);
+    await db.userProfile.create({
+      data: {
+        userId: otherId,
+        name: "Four meals test",
+        age: 30,
+        gender: "MALE",
+        heightCm: 170,
+        weightKg: 60,
+        activity: "LIGHT",
+        goal: "MAINTAIN",
+        mealsPerDay: 1,
+      },
+    });
+    await db.user.update({
+      where: { id: otherId },
+      data: { usageMode: "PERSONALIZED" },
+    });
+    const recommendationDate = addDays(today, 2),
+      beforeDrafts = await db.mealPlan.count({ where: { userId: otherId } });
+    const automaticDay = await api(
+      "b",
+      "/recommendations/plan",
+      "POST",
+      { date: recommendationDate, meals: 1 },
+      201,
+    );
+    assert.equal(automaticDay.mealCount, 4);
+    assert.deepEqual(automaticDay.mealSlots, [
+      "BREAKFAST",
+      "LUNCH",
+      "DINNER",
+      "SNACK",
+    ]);
+    const automaticWeek = await api(
+      "b",
+      "/recommendations/week",
+      "POST",
+      { date: recommendationDate, meals: 2 },
+      201,
+    );
+    assert.equal(automaticWeek.mealCount, 4);
+    assert.equal(automaticWeek.days.length, 7);
+    assert.equal(
+      await db.mealPlan.count({ where: { userId: otherId } }),
+      beforeDrafts,
+    );
     // Verify real durable job processing and updates arriving during an in-flight run.
     await db.monitoringJob.deleteMany({ where: { userId } });
     const jobDb = new Proxy(db, {

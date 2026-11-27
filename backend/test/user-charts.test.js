@@ -1,8 +1,8 @@
 require("reflect-metadata");
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { chartPeriod } = require("../dist/chart-period");
-const { chartSummary } = require("../dist/services/user-charts.service");
+const { chartPeriod } = require("../dist/modules/dashboard/chart-period");
+const { chartSummary } = require("../dist/modules/dashboard/user-charts.service");
 const food = {
   calories: 100,
   protein: 5,

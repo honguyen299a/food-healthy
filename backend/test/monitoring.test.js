@@ -2,21 +2,12 @@ require("reflect-metadata");
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { validateSync } = require("class-validator");
-const {
-  aggregateNutrition,
-  analyzePeriod,
-  createInsights,
-  localToday,
-  monday,
-} = require("../dist/monitoring-analysis");
-const { evaluateRules } = require("../dist/monitoring-rules");
-const {
-  RecommendationSafetyService,
-} = require("../dist/services/recommendation-safety.service");
-const {
-  MonitoringSettingsDto,
-} = require("../dist/controllers/monitoring.controller");
-const { nutrition, sum } = require("../dist/nutrition");
+const { aggregateNutrition, analyzePeriod, createInsights } = require("../dist/modules/monitoring/monitoring-analysis");
+const { localToday, monday } = require("../dist/common/utils/date");
+const { evaluateRules } = require("../dist/modules/monitoring/monitoring-rules");
+const { RecommendationSafetyService } = require("../dist/modules/recommendations/recommendation-safety.service");
+const { MonitoringSettingsDto } = require("../dist/modules/monitoring/dto/monitoring.dto");
+const { nutrition, sum } = require("../dist/modules/nutrition/nutrition-calculator");
 const safety = new RecommendationSafetyService();
 const food = {
   id: 1,

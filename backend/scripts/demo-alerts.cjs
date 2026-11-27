@@ -10,7 +10,7 @@ const {
   unlinkSync,
 } = require("node:fs");
 const { resolve } = require("node:path");
-const { localToday, addDays } = require("../dist/monitoring-analysis");
+const { localToday, addDays } = require("../dist/common/utils/date");
 const db = new PrismaClient();
 const statePath = resolve(__dirname, "..", ".alert-demo-state.json");
 const base = `http://127.0.0.1:${process.env.PORT || 3000}/api`;

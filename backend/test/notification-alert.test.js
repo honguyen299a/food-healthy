@@ -1,9 +1,6 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const {
-  notificationAlertId,
-  notificationAlertPaths,
-} = require("../dist/notification-alert");
+const { notificationAlertId, notificationAlertPaths } = require("../dist/modules/notifications/notification-alert");
 test("notification context recognizes old and new user alert links and Admin links", () => {
   for (const path of [
     "/alerts?id=12",

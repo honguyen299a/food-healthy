@@ -2,8 +2,8 @@ require("reflect-metadata");
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const { validateSync } = require("class-validator");
-const { FoodDto } = require("../dist/dto");
-const { nutrition, sum } = require("../dist/nutrition");
+const { FoodDto } = require("../dist/modules/foods/dto/foods.dto");
+const { nutrition, sum } = require("../dist/modules/nutrition/nutrition-calculator");
 const food = {
   name: "Thực phẩm thử",
   categoryId: 1,

@@ -1,12 +1,10 @@
 require("dotenv/config");
 const assert = require("node:assert/strict");
 const { PrismaClient } = require("@prisma/client");
-const { AiService } = require("../dist/services/ai.service");
-const { AiModelService } = require("../dist/services/ai-model.service");
-const { NutritionService } = require("../dist/services/nutrition.service");
-const {
-  RecommendationSafetyService,
-} = require("../dist/services/recommendation-safety.service");
+const { AiService } = require("../dist/modules/ai/ai.service");
+const { AiModelService } = require("../dist/modules/ai/ai-model.service");
+const { NutritionService } = require("../dist/modules/nutrition/nutrition.service");
+const { RecommendationSafetyService } = require("../dist/modules/recommendations/recommendation-safety.service");
 const db = new PrismaClient();
 (async () => {
   let user;

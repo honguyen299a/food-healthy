@@ -153,16 +153,31 @@ model ManualNutritionTarget {
 }
 model FoodCategory {
   id Int @id @default(autoincrement())
+  code String? @unique @db.VarChar(40)
+  sortOrder Int @default(100) @map("sort_order")
   name String @unique @db.VarChar(100)
   foods Food[]
   @@map("food_categories")
 }
 model Food {
+  canSuggest Boolean @default(true) @map("can_suggest")
+  subgroup String? @db.VarChar(100)
+  aliases Json?
+  nutritionSource String? @map("nutrition_source") @db.VarChar(150)
+  nutritionSourceUrl String? @map("nutrition_source_url") @db.VarChar(500)
+  foodDescription String? @map("food_description") @db.VarChar(500)
+  nutritionEdited Boolean @default(false) @map("nutrition_edited")
+  imageUrl String? @map("image_url") @db.VarChar(500)
+  imageSourceUrl String? @map("image_source_url") @db.VarChar(500)
+  imageCredit String? @map("image_credit") @db.VarChar(500)
+  imageLicense String? @map("image_license") @db.VarChar(100)
+  imageLicenseUrl String? @map("image_license_url") @db.VarChar(500)
   fiber Decimal? @db.Decimal(16,8)
   sugars Decimal? @db.Decimal(16,8)
   sodium Decimal? @db.Decimal(16,8)
   id Int @id @default(autoincrement())
-  name String @unique @db.VarChar(150)
+  name String @db.VarChar(150)
+  ownerScope Int @default(dbgenerated()) @map("owner_scope")
   categoryId Int @map("category_id")
   category FoodCategory @relation(fields: [categoryId], references: [id])
   calories Decimal @db.Decimal(8,2)
@@ -178,6 +193,7 @@ model Food {
   preferences UserFoodPreference[]
   @@index([categoryId])
   @@index([ownerId])
+  @@unique([ownerScope, name])
   @@map("foods")
 }
 model MealPlan {
@@ -189,7 +205,15 @@ model MealPlan {
   @@unique([userId, date])
   @@map("meal_plans")
 }
+enum PlanItemStatus {
+  PENDING
+  COMPLETED
+  SKIPPED
+}
 model MealPlanItem {
+  status PlanItemStatus @default(PENDING)
+  revision Int @default(0)
+  logItem FoodLogItem? @relation("ConsumedPlanItem")
   id Int @id @default(autoincrement())
   planId Int @map("plan_id")
   plan MealPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
@@ -210,6 +234,17 @@ model FoodLog {
   @@map("food_logs")
 }
 model FoodLogItem {
+  planItemId Int? @unique @map("plan_item_id")
+  planItem MealPlanItem? @relation("ConsumedPlanItem", fields: [planItemId], references: [id], onDelete: SetNull)
+  fromPlan Boolean @default(false) @map("from_plan")
+  foodName String? @map("food_name") @db.VarChar(150)
+  caloriesPer100g Decimal? @map("calories_per_100g") @db.Decimal(16,8)
+  proteinPer100g Decimal? @map("protein_per_100g") @db.Decimal(16,8)
+  carbsPer100g Decimal? @map("carbs_per_100g") @db.Decimal(16,8)
+  fatPer100g Decimal? @map("fat_per_100g") @db.Decimal(16,8)
+  fiberPer100g Decimal? @map("fiber_per_100g") @db.Decimal(16,8)
+  sugarsPer100g Decimal? @map("sugars_per_100g") @db.Decimal(16,8)
+  sodiumPer100g Decimal? @map("sodium_per_100g") @db.Decimal(16,8)
   id Int @id @default(autoincrement())
   logId Int @map("log_id")
   log FoodLog @relation(fields: [logId], references: [id], onDelete: Cascade)

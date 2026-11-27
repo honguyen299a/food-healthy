@@ -1,5 +1,5 @@
 require("dotenv/config");
-const { parseResult, resultSchema } = require("../dist/ai-contract");
+const { parseResult, resultSchema } = require("../dist/modules/ai/ai-contract");
 const base = (process.env.OLLAMA_URL || "http://127.0.0.1:11434").replace(
   /\/$/,
   "",

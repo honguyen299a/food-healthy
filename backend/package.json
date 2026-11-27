@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
+    "admin:create": "node scripts/create-admin.cjs",
+    "records:check": "npm run build && node scripts/check-plan-logs.cjs",
+    "foods:import": "node scripts/import-food-catalog.cjs",
     "dev": "nest start --watch",
     "build": "nest build",
     "start": "node dist/main.js",
@@ -13,7 +16,9 @@
     "ai:check": "npm run build && node scripts/check-ai.cjs",
     "monitoring:check": "npm run build && node scripts/check-monitoring.cjs",
     "monitoring:demo": "npm run build && node scripts/demo-alerts.cjs",
-    "monitoring:demo:cleanup": "node scripts/demo-alerts.cjs --cleanup"
+    "monitoring:demo:cleanup": "node scripts/demo-alerts.cjs --cleanup",
+    "monitoring:demo-pair": "npm run build && node scripts/demo-user-pair.cjs",
+    "monitoring:demo-pair:cleanup": "node scripts/demo-user-pair.cjs --cleanup"
   },
   "dependencies": {
     "@nestjs/common": "^10.4.22",

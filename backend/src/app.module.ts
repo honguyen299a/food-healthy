@@ -1,33 +1,41 @@
 import { Module } from '@nestjs/common';
 import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
-import { JwtModule } from '@nestjs/jwt';
-import { AuthGuard, RoleGuard } from './auth';
-import { AuthController } from './controllers/auth.controller';
-import { PrismaService } from './services/prisma.service';
-import { NutritionController } from './controllers/nutrition.controller';
-import { NutritionService } from './services/nutrition.service';
-import { ProfilesController } from './controllers/profiles.controller';
-import { FoodsController, CategoriesController } from './controllers/foods.controller';
-import { MealPlansController, FoodLogsController, WeightLogsController, DashboardController } from './controllers/records.controller';
-import { RecommendationsController } from './controllers/recommendations.controller';
-import { RecommendationsService } from './services/recommendations.service';
-import { AdminController } from './controllers/admin.controller';
-import { RecommendationSafetyService } from './services/recommendation-safety.service';
-import { AiController } from './controllers/ai.controller';
-import { AiService } from './services/ai.service';
-import { AiModelService } from './services/ai-model.service';
-import { MonitoringService } from './services/monitoring.service';
-import { MonitoringJobsService } from './services/monitoring-jobs.service';
-import { NotificationsService } from './services/notifications.service';
-import { MonitoringInterceptor } from './monitoring.interceptor';
-import { AdminAlertsController, HealthAlertsController, InsightsController, LogCompletionController, MonitoringController } from './controllers/monitoring.controller';
-import { NotificationsController } from './controllers/notifications.controller';
-import { AdminHealthService } from './services/admin-health.service';
-import { UserChartsService } from './services/user-charts.service';
-
+import { AuthGuard } from './common/guards/auth.guard';
+import { RoleGuard } from './common/guards/role.guard';
+import { MonitoringInterceptor } from './common/interceptors/monitoring.interceptor';
+import { PrismaModule } from './database/prisma.module';
+import { AdminModule } from './modules/admin/admin.module';
+import { AiModule } from './modules/ai/ai.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
+import { FoodsModule } from './modules/foods/foods.module';
+import { MealRecordsModule } from './modules/meal-records/meal-records.module';
+import { MonitoringModule } from './modules/monitoring/monitoring.module';
+import { NotificationsModule } from './modules/notifications/notifications.module';
+import { NutritionModule } from './modules/nutrition/nutrition.module';
+import { ProfilesModule } from './modules/profiles/profiles.module';
+import { RecommendationsModule } from './modules/recommendations/recommendations.module';
+import { WeightsModule } from './modules/weights/weights.module';
 @Module({
-  imports: [JwtModule.register({ secret: process.env.JWT_SECRET || 'development-only-secret', signOptions: { expiresIn: '7d' } })],
-  controllers: [AuthController, NutritionController, ProfilesController, FoodsController, CategoriesController, MealPlansController, FoodLogsController, WeightLogsController, DashboardController, RecommendationsController, AdminController, AiController, MonitoringController, HealthAlertsController, AdminAlertsController, InsightsController, LogCompletionController, NotificationsController],
-  providers: [PrismaService, NutritionService, RecommendationsService, RecommendationSafetyService, AiService, AiModelService, MonitoringService, MonitoringJobsService, NotificationsService, AdminHealthService, UserChartsService, { provide: APP_INTERCEPTOR, useClass: MonitoringInterceptor }, { provide: APP_GUARD, useClass: AuthGuard }, { provide: APP_GUARD, useClass: RoleGuard }]
+  imports: [
+    PrismaModule,
+    AuthModule,
+    ProfilesModule,
+    FoodsModule,
+    NutritionModule,
+    MealRecordsModule,
+    RecommendationsModule,
+    MonitoringModule,
+    WeightsModule,
+    NotificationsModule,
+    DashboardModule,
+    AiModule,
+    AdminModule,
+  ],
+  providers: [
+    { provide: APP_GUARD, useClass: AuthGuard },
+    { provide: APP_GUARD, useClass: RoleGuard },
+    { provide: APP_INTERCEPTOR, useClass: MonitoringInterceptor },
+  ],
 })
 export class AppModule {}

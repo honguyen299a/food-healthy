@@ -1,15 +1,9 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const {
-  parseResult,
-  parseItems,
-  validDate,
-  planHash,
-} = require("../dist/ai-contract");
-const { AiService } = require("../dist/services/ai.service");
-const {
-  RecommendationSafetyService,
-} = require("../dist/services/recommendation-safety.service");
+const { parseResult, parseItems, planHash } = require("../dist/modules/ai/ai-contract");
+const { validDate } = require("../dist/common/utils/date");
+const { AiService } = require("../dist/modules/ai/ai.service");
+const { RecommendationSafetyService } = require("../dist/modules/recommendations/recommendation-safety.service");
 const item = { foodId: 1, meal: "LUNCH", grams: 150 };
 const food = {
   id: 1,
@@ -29,6 +23,7 @@ function fixture(overrides = {}) {
   let writes = 0,
     calls = 0;
   const db = {
+    $queryRaw: async () => [{ id: 1 }],
     user: {
       findUniqueOrThrow: async () => ({
         usageMode: "PERSONALIZED",
@@ -259,4 +254,18 @@ test("already applied plan confirmation is idempotent", async () => {
     (await f.service.confirm(1, "c", "d", 1, "SAVE_PLAN")).alreadyApplied,
     true,
   );
+});
+
+test('AI cannot replace a day containing a completed item even if the preview hash still matches', async () => {
+  const completed = { ...item, status: 'COMPLETED' };
+  const f = fixture({
+    aiDraft: {
+      findFirst: async () => ({ id: 'd', date: new Date('2026-11-19'), status: 'PENDING', expiresAt: new Date(Date.now() + 10000), items: [item], planHash: planHash([completed]) }),
+      updateMany: async () => ({ count: 1 }),
+    },
+    mealPlan: { findUnique: async () => ({ items: [completed] }) },
+    mealPlanItem: { deleteMany: () => assert.fail('Must preserve completed plan and linked log') },
+  });
+  f.db.$transaction = async fn => fn(f.db);
+  await assert.rejects(f.service.confirm(1, 'c', 'd', 1, 'SAVE_PLAN'), error => error.getStatus() === 409);
 });

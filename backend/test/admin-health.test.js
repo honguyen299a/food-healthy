@@ -1,6 +1,6 @@
 const { test } = require("node:test");
 const assert = require("node:assert/strict");
-const { classifyHealth } = require("../dist/admin-health");
+const { classifyHealth } = require("../dist/modules/admin/admin-health");
 const end = "2026-11-25";
 const summary = (protein = 100) => ({
   end,
